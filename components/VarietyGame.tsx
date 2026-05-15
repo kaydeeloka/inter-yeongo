@@ -1,9 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { Trophy, Volume2 } from 'lucide-react';
-import FrogMascot from '@/components/FrogMascot';
-import { useState, useEffect } from 'react';
 import { Trophy, Volume2, RefreshCcw } from 'lucide-react';
 import { EXPRESSIONS } from '@/data/expressions';
 import { useAudio } from '@/hooks/useAudio';

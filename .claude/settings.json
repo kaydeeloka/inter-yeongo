@@ -9,7 +9,10 @@
       "Bash(powershell -command \"Get-Content 'd:\\\\Developer\\\\InterYeongo\\\\public\\\\avatar\\\\artistic.svg' -Tail 5\")",
       "Bash(python -c ' *)",
       "Bash(npx next *)",
-      "PowerShell(@\\('app\\\\explore\\\\subjects\\\\page.tsx', 'app\\\\learn\\\\page.tsx'\\) | ForEach-Object { \"=== $_ ===\" ; Get-Content \"d:\\\\Developer\\\\InterYeongo\\\\$_\" -ErrorAction SilentlyContinue })"
+      "PowerShell(@\\('app\\\\explore\\\\subjects\\\\page.tsx', 'app\\\\learn\\\\page.tsx'\\) | ForEach-Object { \"=== $_ ===\" ; Get-Content \"d:\\\\Developer\\\\InterYeongo\\\\$_\" -ErrorAction SilentlyContinue })",
+      "Bash(git fetch *)",
+      "Bash(git stash *)",
+      "Bash(git merge *)"
     ]
   }
 }
