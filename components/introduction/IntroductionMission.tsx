@@ -12,10 +12,15 @@ import { useSpeechRecognition } from '@/hooks/useSpeechRecognition';
 import { buildIntroductionEnglish, hasIntroInput, type IntroFields } from '@/lib/introduction-template';
 import { cancelSpeech, isSpeechSynthesisSupported, speakEnglish } from '@/lib/speech-synthesis';
 import { scoreSpeechMatch, type SpeechScoreResult } from '@/lib/speech-scoring';
+import type { Avatar } from '@/types';
 
-const emptyFields: IntroFields = { name: '', major: '', interest: '', goal: '' };
+const emptyFields: IntroFields = { name: '', age: '', country: '', major: '', goodAt: '' };
 
-export default function IntroductionMission() {
+interface IntroductionMissionProps {
+  avatar: Avatar;
+}
+
+export default function IntroductionMission({ avatar }: IntroductionMissionProps) {
   const [fields, setFields] = useState<IntroFields>(emptyFields);
   const [ttsPlaying, setTtsPlaying] = useState(false);
   const [transcript, setTranscript] = useState<string | null>(null);
@@ -88,55 +93,61 @@ export default function IntroductionMission() {
   const practiceDisabled = !filled || listening || ttsPlaying || !recognitionSupported;
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+
+      {/* Left: form */}
       <IntroBuilderCard values={fields} onChange={patchFields} />
-      <IntroPreview text={generated} showPlaceholder={!filled} />
 
-      {!recognitionSupported && (
-        <p className="rounded-xl border border-[#FFF176] bg-[#FFF176]/25 px-3 py-2 text-xs font-medium text-[#1F1D3D]">
-          말하기 연습은 브라우저마다 다를 수 있어요. Chrome에서 말하기 연습이 가장 안정적이에요. 듣기와
-          문장 확인은 그대로 이용할 수 있어요.
-        </p>
-      )}
-      {!ttsSupported && (
-        <p className="text-xs text-[#6F6A8A]">이 브라우저에서는 음성 듣기(TTS)를 지원하지 않을 수 있어요.</p>
-      )}
+      {/* Right: preview + controls + feedback */}
+      <div className="flex flex-col gap-4">
+        <IntroPreview text={generated} showPlaceholder={!filled} avatar={avatar} />
 
-      <IntroPracticeControls
-        onListen={handleListen}
-        onPractice={handlePractice}
-        onReset={handleReset}
-        listenDisabled={listenDisabled}
-        practiceDisabled={practiceDisabled}
-        recognitionSupported={recognitionSupported}
-      />
+        {!recognitionSupported && (
+          <p className="rounded-2xl border-4 border-yellow-400 bg-yellow-50 px-4 py-3 text-xs font-bold text-[#312e81]">
+            말하기 연습은 Chrome에서 가장 안정적이에요. 듣기와 문장 확인은 그대로 이용할 수 있어요.
+          </p>
+        )}
+        {!ttsSupported && (
+          <p className="text-xs font-bold text-[#312e81]/50">이 브라우저에서는 음성 듣기(TTS)를 지원하지 않을 수 있어요.</p>
+        )}
 
-      {listening && (
-        <p className="text-center text-xs font-semibold text-[#302B8F]" aria-live="polite">
-          듣고 있어요… 말씀해 주세요.
-        </p>
-      )}
-      {recError && (
-        <p className="text-center text-xs text-red-700" role="status">
-          인식 오류: {recError}
-        </p>
-      )}
+        <IntroPracticeControls
+          onListen={handleListen}
+          onPractice={handlePractice}
+          onStop={abort}
+          onStopListen={() => { cancelSpeech(); setTtsPlaying(false); }}
+          onReset={handleReset}
+          listenDisabled={listenDisabled}
+          practiceDisabled={practiceDisabled}
+          recognitionSupported={recognitionSupported}
+          listening={listening}
+          ttsPlaying={ttsPlaying}
+        />
 
-      <IntroFeedback transcript={transcript} score={score} />
+        {listening && (
+          <p className="text-center text-xs font-black text-[#312e81] uppercase tracking-widest" aria-live="polite">
+            듣고 있어요… 말씀해 주세요.
+          </p>
+        )}
+        {recError && (
+          <p className="text-center text-xs font-bold text-rose-700" role="status">
+            인식 오류: {recError}
+          </p>
+        )}
 
-      <div className="pt-1">
+        <IntroFeedback transcript={transcript} score={score} />
+
         <Link
           href="/explore/speaking"
-          className={`flex items-center justify-center gap-2 rounded-xl border-2 px-4 py-3 text-sm font-bold transition ${
+          className={`flex items-center justify-center gap-2 rounded-2xl border-4 px-4 py-3 text-sm font-black uppercase transition-all ${
             hasAttemptedPractice || score?.passed
-              ? 'border-[#302B8F] bg-[#302B8F] text-white shadow-sm hover:bg-[#25206F]'
-              : 'border-[#302B8F]/35 bg-white text-[#6F6A8A] hover:border-[#302B8F] hover:text-[#302B8F]'
+              ? 'border-orange-600 bg-orange-400 text-white shadow-[4px_4px_0px_0px_rgba(194,65,12,0.4)] hover:scale-105 active:scale-95'
+              : 'border-[#312e81]/30 bg-white text-[#312e81]/50 hover:border-[#312e81] hover:text-[#312e81]'
           }`}
         >
           다음: 스피킹 연습
           <ArrowRight className="h-4 w-4" aria-hidden />
         </Link>
-        <p className="mt-2 text-center text-[10px] text-[#6F6A8A]">Speaking practice · /explore/speaking</p>
       </div>
     </div>
   );

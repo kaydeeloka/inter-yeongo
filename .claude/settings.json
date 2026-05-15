@@ -14,10 +14,12 @@
       "Bash(git stash *)",
       "Bash(git merge *)",
       "PowerShell(Rename-Item \"d:\\\\Developer\\\\InterYeongo\\\\app\\\\explore\\\\subjects\" \"subject\")",
-      "Bash(rm -rf d:/Developer/InterYeongo/app/explore/subjects)"
+      "Bash(rm -rf d:/Developer/InterYeongo/app/explore/subjects)",
+      "Bash(mkdir -p d:/Developer/InterYeongo/public/img/explore/hub && mv d:/Developer/InterYeongo/public/explore/hub/* d:/Developer/InterYeongo/public/img/explore/hub/ && rm -rf d:/Developer/InterYeongo/public/explore)"
     ],
     "additionalDirectories": [
-      "d:\\Developer\\InterYeongo\\app\\explore\\subjects"
+      "d:\\Developer\\InterYeongo\\app\\explore\\subjects",
+      "d:\\Developer\\InterYeongo\\public\\explore\\hub"
     ]
   }
 }

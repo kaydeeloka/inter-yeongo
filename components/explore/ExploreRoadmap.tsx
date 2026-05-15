@@ -1,8 +1,12 @@
 'use client';
 
-import { useState } from 'react';
-import Link from 'next/link';
-import { ArrowLeft, Map } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { ArrowLeft } from 'lucide-react';
+
+import { getSavedAvatar, getSavedName } from '@/lib/userStore';
+import { AVATARS } from '@/data/avatars';
+import type { Avatar } from '@/types';
 
 import ExploreMissionModal from '@/components/explore/ExploreMissionModal';
 import RoadmapNode from '@/components/explore/RoadmapNode';
@@ -13,10 +17,18 @@ import { EXPLORE_THEME } from '@/data/explore-theme';
 import { useWideRoadmapLayout } from '@/hooks/useWideRoadmapLayout';
 
 export default function ExploreRoadmap() {
+  const router = useRouter();
   const wide = useWideRoadmapLayout();
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [modalLesson, setModalLesson] = useState<RoadmapLesson | null>(null);
+  const [avatar, setAvatar] = useState<Avatar>(AVATARS[0]);
+  const [nickname, setNickname] = useState('');
   const modalOpen = modalLesson !== null;
+
+  useEffect(() => {
+    setAvatar(getSavedAvatar());
+    setNickname(getSavedName());
+  }, []);
 
   const pathD = wide ? roadmapPathForLayout(true) : '';
   const pathEmphasis = wide && hoveredId !== null;
@@ -37,27 +49,19 @@ export default function ExploreRoadmap() {
         aria-hidden
       />
 
-      <header
-        className="sticky top-0 z-20 border-b-2 backdrop-blur-md"
-        style={{
-          borderColor: `${EXPLORE_THEME.primary}33`,
-          backgroundColor: `${EXPLORE_THEME.bg}f2`,
-        }}
-      >
-        <div className="mx-auto flex h-12 w-full max-w-[min(96rem,calc(100vw-1.5rem))] items-center justify-between gap-3 px-3 sm:px-4">
-          <Link
-            href="/"
-            className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border-2 border-[#302B8F] bg-white text-[#302B8F] shadow-sm transition hover:bg-[#FFF176]/35"
-            aria-label="홈"
-          >
-            <ArrowLeft className="h-4 w-4" />
-          </Link>
-          <div className="flex min-w-0 flex-1 items-center justify-center gap-1.5">
-            <Map className="h-4 w-4 shrink-0 text-[#302B8F]" aria-hidden />
-            <span className="truncate text-sm font-bold text-[#1F1D3D]">영어 로드맵</span>
+      <header className="w-full bg-white border-b-4 border-[#312e81] px-4 py-3 flex items-center justify-between sticky top-0 z-50">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 border-2 border-[#312e81] shadow-[2px_2px_0px_0px_rgba(49,46,129,1)] rounded-full flex items-center justify-center bg-white shrink-0">
+            <img src={avatar.image} alt={avatar.name} className="w-9 h-9 object-contain" />
           </div>
-          <div className="w-9 shrink-0" aria-hidden />
+          <span className="font-black text-sm uppercase italic leading-none text-[#312e81]">{nickname}</span>
         </div>
+        <button
+          onClick={() => router.push('/avatar')}
+          className="bg-white p-1.5 border-2 border-[#312e81] rounded-lg shadow-[2px_2px_0px_0px_rgba(49,46,129,1)]"
+        >
+          <ArrowLeft size={18} />
+        </button>
       </header>
 
       <main className="relative z-1 mx-auto w-full max-w-[min(96rem,calc(100vw-1.5rem))] px-3 pb-16 pt-4 sm:px-5 sm:pt-5 md:pb-14 lg:px-8 lg:pb-16">

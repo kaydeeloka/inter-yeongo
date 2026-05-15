@@ -1,12 +1,12 @@
 /**
- * LingoDeer-style roadmap — building assets under `public/explore/hub/`.
+ * LingoDeer-style roadmap — building assets under `public/img/explore/`.
  * Coordinates use a shared 0–100 viewBox (x = horizontal, y = vertical).
  */
 export const ROADMAP_BUILDING_IMAGES = {
-  introduction: '/explore/hub/lab.png',
-  speaking: '/explore/hub/broadcast.png',
-  classroom: '/explore/hub/classroom.webp',
-  subjects: '/explore/hub/library.png',
+  introduction: '/img/explore/lab.png',
+  speaking: '/img/explore/broadcast.png',
+  classroom: '/img/explore/classroom.webp',
+  subjects: '/img/explore/library.png',
 } as const;
 
 /** Vertical journey (viewports below md): bottom → top. */
@@ -68,7 +68,7 @@ export const ROADMAP_LESSONS: RoadmapLesson[] = [
       subtitleKo: '자기소개 미션',
       description: '처음 만난 사람에게 자연스럽게 나를 소개하는 연습을 해요.',
       features: [
-        '이름, 전공, 관심사 말하기',
+        '이름, 전공, 장점 말하기',
         '어색하지 않은 첫인사 표현',
         '동아리/수업에서 쓰는 자기소개',
         '짧고 자연스러운 답변 연습',

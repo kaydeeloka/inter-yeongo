@@ -29,25 +29,29 @@ export default function IntroFeedback({ transcript, score }: IntroFeedbackProps)
 
   const seed = transcript ?? score?.normalizedTranscript ?? '';
   const message = score ? pickMessage(score.passed ? PASS_MESSAGES : RETRY_MESSAGES, seed) : null;
+  const passed = score?.passed ?? false;
 
   return (
     <section
-      className="rounded-2xl border-2 border-[#302B8F]/40 bg-white p-4 shadow-sm sm:p-5"
+      className={`rounded-3xl border-4 p-5 shadow-[4px_4px_0px_0px_rgba(49,46,129,1)] ${
+        passed
+          ? 'border-emerald-500 bg-emerald-50'
+          : 'border-[#312e81] bg-white'
+      }`}
       aria-live="polite"
     >
-      <h2 className="text-sm font-bold text-[#1F1D3D]">피드백</h2>
+      <h2 className="text-sm font-black uppercase italic text-[#312e81]">피드백</h2>
       {transcript && (
-        <p className="mt-2 text-xs text-[#6F6A8A]">
-          <span className="font-semibold text-[#302B8F]">인식:</span> {transcript}
+        <p className="mt-2 text-xs font-bold text-[#312e81]/60">
+          <span className="text-[#312e81]">인식:</span> {transcript}
         </p>
       )}
       {score && (
         <>
-          <p className="mt-2 text-sm font-bold text-[#302B8F]">
-            유사도 {Math.round(score.similarity * 100)}점{' '}
-            <span className="text-[#1F1D3D]">· {score.passed ? '통과' : '다시 도전'}</span>
+          <p className={`mt-2 text-sm font-black ${passed ? 'text-emerald-700' : 'text-orange-600'}`}>
+            유사도 {Math.round(score.similarity * 100)}점 · {passed ? '통과 ✓' : '다시 도전'}
           </p>
-          {message && <p className="mt-1 text-sm leading-snug text-[#1F1D3D]">{message}</p>}
+          {message && <p className="mt-1 text-sm font-bold leading-snug text-[#312e81]">{message}</p>}
         </>
       )}
     </section>
