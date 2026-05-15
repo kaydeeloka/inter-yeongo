@@ -1,16 +1,16 @@
-interface FrogMascotProps {
+interface ribbitMascotProps {
   className?: string;
   mood?: 'happy' | 'sad' | 'thinking';
   color?: string;
   accessory?: string;
 }
 
-export default function FrogMascot({
+export default function ribbitMascot({
   className,
   mood = 'happy',
   color = '#4ade80',
   accessory = 'none',
-}: FrogMascotProps) {
+}: ribbitMascotProps) {
   return (
     <div className={`relative ${className}`}>
       <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-md">

@@ -5,7 +5,9 @@
       "Bash(npm install *)",
       "Bash(gh repo *)",
       "PowerShell(gh repo list kaydeeloka --json name,url 2>&1)",
-      "Bash(git remote *)"
+      "Bash(git remote *)",
+      "Bash(powershell -command \"Get-Content 'd:\\\\Developer\\\\InterYeongo\\\\public\\\\avatar\\\\artistic.svg' -Tail 5\")",
+      "Bash(python -c ' *)"
     ]
   }
 }

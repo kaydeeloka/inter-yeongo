@@ -32,17 +32,17 @@ export default function AvatarPage() {
         <h1 className="font-black italic uppercase tracking-widest text-base">Pick Your Persona</h1>
       </header>
 
-      <div className="flex-1 flex items-start justify-center px-4 pt-6 pb-10 gap-4 max-w-2xl mx-auto w-full">
+      <div className="flex-1 flex items-start justify-center px-8 pt-10 pb-10 gap-6 w-full">
 
         {/* Avatar grid */}
-        <div className="grid grid-cols-3 gap-3 flex-1 min-w-0">
+        <div className="grid grid-cols-3 gap-3 w-fit">
           {AVATARS.map((a) => {
             const isSelected = a.id === selectedId;
             return (
               <button
                 key={a.id}
                 onClick={() => setSelectedId(a.id)}
-                className={`flex flex-col items-center gap-1.5 p-3 rounded-3xl border-4 transition-all
+                className={`w-44 flex flex-col items-center gap-1.5 p-4 rounded-3xl border-4 transition-all
                   ${isSelected
                     ? 'border-[#312e81] bg-yellow-200 shadow-[4px_4px_0px_0px_rgba(49,46,129,1)] scale-105'
                     : 'border-[#312e81] bg-white shadow-[2px_2px_0px_0px_rgba(49,46,129,1)] hover:bg-indigo-50'
@@ -57,10 +57,10 @@ export default function AvatarPage() {
         </div>
 
         {/* Selected avatar + name input */}
-        <div className="w-80 shrink-0 bg-white border-4 border-[#312e81] rounded-4xl shadow-[6px_6px_0px_0px_rgba(49,46,129,1)] p-8 flex flex-col items-center gap-5 sticky top-4">
-          <img src={selectedAvatar.image} alt={selectedAvatar.name} className="w-40 h-40 object-contain" />
+        <div className="w-120 shrink-0 bg-white border-4 border-[#312e81] rounded-4xl shadow-[6px_6px_0px_0px_rgba(49,46,129,1)] p-10 flex flex-col items-center gap-5 sticky top-4">
+          <img src={selectedAvatar.image} alt={selectedAvatar.name} className="w-44 h-44 object-contain" />
           <div className="text-center">
-            <div className="font-black text-lg uppercase">{selectedAvatar.name}</div>
+            <div className="font-black text-xl uppercase">{selectedAvatar.name}</div>
             <div className="text-[10px] font-bold text-indigo-400">{selectedAvatar.desc}</div>
           </div>
 

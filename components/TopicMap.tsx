@@ -58,7 +58,7 @@ export default function TopicMap({ avatar, onSelect, onBack }: TopicMapProps) {
             </svg>
           </div>
 
-          {/* Frog inside the map */}
+          {/* ribbit inside the map */}
           <div className="absolute bottom-4 left-1/2 -translate-x-1/2 pointer-events-none">
             <img src={avatar.image} alt={avatar.name} className="w-14 h-14 object-contain" />
           </div>
