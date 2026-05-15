@@ -41,13 +41,50 @@ export default function ExploreRoadmap() {
         color: EXPLORE_THEME.text,
       }}
     >
+      {/* Dot grid */}
       <div
-        className="pointer-events-none fixed inset-0 opacity-[0.22]"
+        className="pointer-events-none fixed inset-0"
         style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E")`,
+          backgroundImage: 'radial-gradient(circle, rgba(48,43,143,0.13) 1.5px, transparent 1.5px)',
+          backgroundSize: '44px 44px',
         }}
         aria-hidden
       />
+
+      {/* Map decorations */}
+      <div className="pointer-events-none fixed inset-0 overflow-hidden" aria-hidden>
+        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" className="absolute inset-0">
+          {/* Subtle contour lines */}
+          <path d="M -100 30% Q 20% 22% 45% 28% Q 65% 34% 85% 24% Q 105% 14% 120% 22%" fill="none" stroke="#302B8F" strokeOpacity="0.07" strokeWidth="1.5" strokeDasharray="6 4" />
+          <path d="M -100 55% Q 20% 48% 45% 54% Q 65% 60% 85% 50% Q 105% 40% 120% 48%" fill="none" stroke="#302B8F" strokeOpacity="0.07" strokeWidth="1.5" strokeDasharray="6 4" />
+          <path d="M -100 78% Q 20% 72% 45% 78% Q 65% 84% 85% 74% Q 105% 64% 120% 72%" fill="none" stroke="#302B8F" strokeOpacity="0.07" strokeWidth="1.5" strokeDasharray="6 4" />
+        </svg>
+
+        {/* Trees */}
+        {[
+          { left: '5%', top: '18%' }, { left: '20%', top: '72%' },
+          { left: '42%', top: '12%' }, { left: '60%', top: '68%' },
+          { left: '78%', top: '16%' }, { left: '90%', top: '58%' },
+          { left: '35%', top: '82%' }, { left: '70%', top: '80%' },
+        ].map((pos, i) => (
+          <svg key={i} style={{ position: 'absolute', left: pos.left, top: pos.top }} width="22" height="28" viewBox="0 0 22 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="9" y="18" width="4" height="8" rx="1" fill="#302B8F" fillOpacity="0.14" />
+            <circle cx="11" cy="12" r="9" fill="#302B8F" fillOpacity="0.1" />
+            <circle cx="11" cy="9" r="6" fill="#302B8F" fillOpacity="0.09" />
+          </svg>
+        ))}
+
+        {/* Compass rose */}
+        <svg style={{ position: 'absolute', right: '2.5rem', bottom: '2rem' }} width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="26" cy="26" r="22" stroke="#302B8F" strokeOpacity="0.15" strokeWidth="1.5" />
+          <circle cx="26" cy="26" r="3" fill="#302B8F" fillOpacity="0.2" />
+          <polygon points="26,6 28,24 26,26 24,24" fill="#302B8F" fillOpacity="0.3" />
+          <polygon points="26,46 28,28 26,26 24,28" fill="#302B8F" fillOpacity="0.15" />
+          <polygon points="6,26 24,24 26,26 24,28" fill="#302B8F" fillOpacity="0.15" />
+          <polygon points="46,26 28,24 26,26 28,28" fill="#302B8F" fillOpacity="0.3" />
+          <text x="26" y="4" textAnchor="middle" fill="#302B8F" fillOpacity="0.35" fontSize="7" fontWeight="800" fontFamily="sans-serif">N</text>
+        </svg>
+      </div>
 
       <header className="w-full bg-white border-b-4 border-[#312e81] px-4 py-3 flex items-center justify-between sticky top-0 z-50">
         <div className="flex items-center gap-3">
@@ -79,9 +116,9 @@ export default function ExploreRoadmap() {
 
         <div
           className={[
-            'relative mx-auto mt-6 w-full rounded-[1.75rem] border-2 border-[#302B8F] bg-white shadow-[0_14px_40px_-14px_rgba(48,43,143,0.18)]',
+            'ml-14 relative mx-auto mt-6 w-full',
             wide
-              ? 'max-w-[min(92rem,calc(100vw-2rem))] overflow-hidden p-[clamp(0.75rem,3vw,2.5rem)] max-lg:max-w-5xl min-h-[clamp(380px,46vw,500px)]'
+              ? 'max-w-[min(92rem,calc(100vw-2rem))] overflow-visible p-[clamp(0.75rem,3vw,2.5rem)] max-lg:max-w-5xl min-h-[clamp(380px,46vw,500px)]'
               : 'max-w-[min(100%,20rem)] overflow-x-hidden px-3 py-8 sm:max-w-88 sm:px-4 sm:py-10',
           ].join(' ')}
         >

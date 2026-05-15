@@ -3,10 +3,10 @@
  * Coordinates use a shared 0–100 viewBox (x = horizontal, y = vertical).
  */
 export const ROADMAP_BUILDING_IMAGES = {
-  introduction: '/img/explore/lab.png',
-  speaking: '/img/explore/broadcast.png',
-  classroom: '/img/explore/classroom.webp',
-  subjects: '/img/explore/library.png',
+  introduction: '/map/intro.svg',
+  speaking: '/map/speaking.svg',
+  classroom: '/map/classroom.svg',
+  subjects: '/map/subject.svg',
 } as const;
 
 /** Vertical journey (viewports below md): bottom → top. */
@@ -15,7 +15,7 @@ export const ROADMAP_PATH_MOBILE =
 
 /** Horizontal journey (md+): Introduction → Speaking → Classroom → Subjects. */
 export const ROADMAP_PATH_DESKTOP =
-  'M 8 50 C 14 38 22 32 30 28 C 40 22 46 36 56 48 C 64 56 72 42 82 34 C 88 30 90 30 92 28';
+  'M 14 50 C 18 38 24 33 30 28 C 40 22 46 36 52 48 C 60 56 66 42 72 34 C 76 30 76 29 76 28';
 
 export type RoadmapDisplayStatus = 'completed' | 'current' | 'upcoming';
 
@@ -119,7 +119,7 @@ export const ROADMAP_LESSONS: RoadmapLesson[] = [
     progressTotal: 4,
     displayStatus: 'upcoming',
     center: {
-      wide: { xPct: 56, yPct: 48 },
+      wide: { xPct: 52, yPct: 48 },
       narrow: { xPct: 74, yPct: 42 },
     },
     modal: {
@@ -149,7 +149,7 @@ export const ROADMAP_LESSONS: RoadmapLesson[] = [
     progressTotal: 5,
     displayStatus: 'upcoming',
     center: {
-      wide: { xPct: 92, yPct: 28 },
+      wide: { xPct: 76, yPct: 28 },
       narrow: { xPct: 50, yPct: 14 },
     },
     modal: {
