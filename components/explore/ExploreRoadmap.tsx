@@ -116,7 +116,7 @@ export default function ExploreRoadmap() {
 
         <div
           className={[
-            'relative mx-auto mt-6 w-full',
+            'ml-20 relative mx-auto mt-12 w-full',
             wide
               ? 'max-w-[min(92rem,calc(100vw-2rem))] overflow-visible p-[clamp(0.75rem,3vw,2.5rem)] max-lg:max-w-5xl min-h-[clamp(380px,46vw,500px)]'
               : 'max-w-[min(100%,20rem)] overflow-x-hidden px-3 py-8 sm:max-w-88 sm:px-4 sm:py-10',
