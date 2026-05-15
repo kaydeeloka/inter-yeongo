@@ -25,7 +25,6 @@ function NodeBody({
   highlighted,
   onHoverChange,
   onSelect,
-  isCurrent,
   isDone,
   imgFailed,
   setImgFailed,
@@ -36,7 +35,6 @@ function NodeBody({
   highlighted: boolean;
   onHoverChange: (id: string | null) => void;
   onSelect: (lesson: RoadmapLesson) => void;
-  isCurrent: boolean;
   isDone: boolean;
   imgFailed: boolean;
   setImgFailed: (v: boolean) => void;
@@ -86,11 +84,6 @@ function NodeBody({
           <span className="rounded-full border border-[#302B8F]/15 bg-[#FFF176]/45 px-2 py-0.5 text-[10px] font-bold tabular-nums text-[#1F1D3D]">
             {lesson.progressCurrent}/{lesson.progressTotal}
           </span>
-          {isCurrent && (
-            <span className="rounded-full border border-[#302B8F]/25 bg-[#FFF176] px-2 py-0.5 text-[10px] font-bold text-[#1F1D3D]">
-              진행 중
-            </span>
-          )}
         </div>
         <h2 className="mt-1 text-[0.9375rem] font-bold leading-snug text-[#1F1D3D] sm:text-base">{lesson.titleKo}</h2>
         <p className="text-[10px] font-semibold text-[#6F6A8A] sm:text-[11px]">{lesson.titleEn}</p>
@@ -127,7 +120,6 @@ export default function RoadmapNode({
             highlighted={highlighted}
             onHoverChange={onHoverChange}
             onSelect={onSelect}
-            isCurrent={isCurrent}
             isDone={displayStatus === 'completed'}
             imgFailed={imgFailed}
             setImgFailed={setImgFailed}
@@ -156,7 +148,6 @@ export default function RoadmapNode({
         highlighted={highlighted}
         onHoverChange={onHoverChange}
         onSelect={onSelect}
-        isCurrent={isCurrent}
         isDone={displayStatus === 'completed'}
         imgFailed={imgFailed}
         setImgFailed={setImgFailed}

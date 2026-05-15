@@ -142,7 +142,7 @@ export const ROADMAP_LESSONS: RoadmapLesson[] = [
     id: 'subjects',
     titleKo: '서브젝트',
     titleEn: 'Subjects',
-    route: '/explore/subjects',
+    route: '/explore/subject',
     imageSrc: ROADMAP_BUILDING_IMAGES.subjects,
     missionShort: '전공·과목 어휘 미션.',
     progressCurrent: 0,
