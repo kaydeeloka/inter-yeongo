@@ -1,7 +1,6 @@
 'use client';
 
 import { School, Library } from 'lucide-react';
-import FrogMascot from '@/components/FrogMascot';
 import type { Avatar } from '@/types';
 
 interface LandingPageProps {
@@ -43,7 +42,7 @@ export default function LandingPage({ onStart, avatar }: LandingPageProps) {
 
             <div className="mb-6 inline-block relative w-full px-6 py-8 bg-white border-4 border-[#312e81] rounded-[2.5rem] shadow-[8px_8px_0px_0px_rgba(49,46,129,1)]">
               <div className="absolute -top-12 left-1/2 -translate-x-1/2">
-                <FrogMascot className="w-20 h-20" color={avatar.color} accessory={avatar.accessory} />
+                <img src={avatar.image} alt={avatar.name} className="w-20 h-20 object-contain" />
               </div>
 
               <h2 className="text-4xl font-black uppercase tracking-tight mb-2 leading-[0.9]">
