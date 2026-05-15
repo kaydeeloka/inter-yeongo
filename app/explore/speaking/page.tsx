@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ArrowLeft, Sparkles } from 'lucide-react';
+import { Map as MapIcon, Sparkles } from 'lucide-react';
 
 import {
   SPEAKING_CATEGORIES,
@@ -254,7 +254,7 @@ export default function SpeakingPage() {
           onClick={() => router.push('/explore')}
           className="p-2 border-2 border-[#312e81] rounded-lg shadow-[3px_3px_0px_0px_rgba(49,46,129,1)] bg-white active:shadow-none active:translate-x-0.5 active:translate-y-0.5 transition-all"
         >
-          <ArrowLeft size={24} />
+          <MapIcon size={24} />
         </button>
       </header>
 

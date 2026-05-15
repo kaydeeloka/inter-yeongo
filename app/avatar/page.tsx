@@ -21,15 +21,16 @@ export default function AvatarPage() {
   return (
     <div className="min-h-screen bg-[#FFFBEB] text-[#312e81] flex flex-col font-sans">
 
-      {/* Header with back button + title */}
-      <header className="w-full bg-white border-b-4 border-[#312e81] px-4 py-3 flex items-center gap-3">
+      {/* Header with back button + centered title */}
+      <header className="w-full bg-white border-b-4 border-[#312e81] px-4 py-3 flex items-center justify-between relative">
         <button
           onClick={() => router.push('/')}
           className="bg-[#FFFBEB] p-2 border-4 border-[#312e81] rounded-xl shadow-[3px_3px_0px_0px_rgba(49,46,129,1)] active:shadow-none active:translate-x-0.5 active:translate-y-0.5 transition-all shrink-0"
         >
           <ArrowLeft size={20} />
         </button>
-        <h1 className="font-black italic uppercase tracking-widest text-base">Pick Your Persona</h1>
+        <h1 className="absolute left-1/2 -translate-x-1/2 font-black italic uppercase tracking-widest text-base">Pick Your Persona</h1>
+        <div className="w-10 shrink-0" />
       </header>
 
       <div className="flex-1 flex items-start justify-center px-8 pt-10 pb-10 gap-6 w-full">
