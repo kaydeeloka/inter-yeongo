@@ -1,8 +1,9 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Map as MapIcon, Sparkles } from 'lucide-react';
+import { ArrowRight, Map as MapIcon, Sparkles } from 'lucide-react';
 
 import {
   SPEAKING_CATEGORIES,
@@ -305,6 +306,14 @@ export default function SpeakingPage() {
             </li>
           ))}
         </ul>
+
+        <Link
+          href="/explore/classroom"
+          className="mt-6 flex items-center justify-center gap-2 rounded-2xl border-4 border-[#312e81]/30 bg-white px-4 py-3 text-sm font-black uppercase text-[#312e81]/50 transition-all hover:border-[#312e81] hover:text-[#312e81]"
+        >
+          다음: 클래스룸
+          <ArrowRight className="h-4 w-4" aria-hidden />
+        </Link>
       </main>
     </div>
   );

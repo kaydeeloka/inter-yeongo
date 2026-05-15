@@ -1,8 +1,9 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Volume2, ChevronRight, CheckCircle2, RotateCcw, School, Map as MapIcon } from 'lucide-react';
+import { ArrowRight, Volume2, ChevronRight, CheckCircle2, School, Map as MapIcon } from 'lucide-react';
 import { getSavedAvatar, getSavedName } from '@/lib/userStore';
 import { AVATARS } from '@/data/avatars';
 import type { Avatar } from '@/types';
@@ -144,10 +145,19 @@ export default function ClassroomPage() {
 
         {/* Quiz selection */}
         {step === 'quiz' && (
-          <div className="grid gap-6 md:grid-cols-3">
-            <QuizCard title="퀴즈 1" description="사진을 보고 영어 단어를 입력하는 퀴즈입니다. 문제는 총 3개예요." onClick={() => setStep('quiz1')} />
-            <QuizCard title="퀴즈 2" description="이미지와 영어 단어 타일을 연결하는 메모리 게임입니다."           onClick={() => setStep('quiz2')} />
-            <QuizCard title="퀴즈 3" description="뜻에 맞는 영어 단어를 골라보는 객관식 퀴즈입니다."             onClick={() => setStep('quiz3')} />
+          <div className="flex flex-col gap-6">
+            <div className="grid gap-6 md:grid-cols-3">
+              <QuizCard title="퀴즈 1" description="사진을 보고 영어 단어를 입력하는 퀴즈입니다. 문제는 총 3개예요." onClick={() => setStep('quiz1')} />
+              <QuizCard title="퀴즈 2" description="이미지와 영어 단어 타일을 연결하는 메모리 게임입니다."           onClick={() => setStep('quiz2')} />
+              <QuizCard title="퀴즈 3" description="뜻에 맞는 영어 단어를 골라보는 객관식 퀴즈입니다."             onClick={() => setStep('quiz3')} />
+            </div>
+            <Link
+              href="/explore/subject"
+              className="flex items-center justify-center gap-2 rounded-2xl border-4 border-[#312e81]/30 bg-white px-4 py-3 text-sm font-black uppercase text-[#312e81]/50 transition-all hover:border-[#312e81] hover:text-[#312e81]"
+            >
+              다음: 서브젝트
+              <ArrowRight className="h-4 w-4" aria-hidden />
+            </Link>
           </div>
         )}
 

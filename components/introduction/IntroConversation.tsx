@@ -103,6 +103,13 @@ export default function IntroConversation({ avatar }: IntroConversationProps) {
   return (
     <div className="flex flex-col items-center gap-5 py-4">
 
+      {/* English instruction */}
+      <div className="w-full max-w-sm rounded-2xl border-2 border-[#312e81]/25 bg-yellow-50 px-4 py-2.5 text-center">
+        <p className="text-xs font-black uppercase tracking-widest text-[#312e81]">
+          영어로 답변해 주세요 <span className="normal-case font-bold tracking-normal text-[#312e81]/60">— Please answer in English</span>
+        </p>
+      </div>
+
       {/* Progress dots */}
       <div className="flex gap-2">
         {QUESTIONS.map((_, i) => (
@@ -126,8 +133,8 @@ export default function IntroConversation({ avatar }: IntroConversationProps) {
             Hint: {current.hint}
           </p>
           {/* Bubble tail */}
-          <div className="absolute -bottom-[18px] left-1/2 -translate-x-1/2">
-            <div className="w-0 h-0 border-l-[10px] border-r-[10px] border-t-[18px] border-l-transparent border-r-transparent border-t-[#312e81]" />
+          <div className="absolute -bottom-4.5 left-1/2 -translate-x-1/2">
+            <div className="w-0 h-0 border-l-10 border-r-10 border-t-18 border-l-transparent border-r-transparent border-t-[#312e81]" />
           </div>
         </div>
 
