@@ -17,7 +17,7 @@ export default function ExplorePage() {
 
   const handleSelect = (track: string, cat: string) => {
     saveLastTopic(track, cat);
-    router.push('/learn');
+    router.push(track);
   };
 
   return (

@@ -1,6 +1,8 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { ArrowLeft, School, Users, Coffee, ShoppingBag } from 'lucide-react';
+import { getSavedName } from '@/lib/userStore';
 import MapPoint from '@/components/MapPoint';
 import type { Avatar } from '@/types';
 
@@ -11,6 +13,9 @@ interface TopicMapProps {
 }
 
 export default function TopicMap({ avatar, onSelect, onBack }: TopicMapProps) {
+  const [nickname, setNickname] = useState('');
+  useEffect(() => { setNickname(getSavedName()); }, []);
+
   return (
     <div className="min-h-screen bg-[#FFFBEB] text-[#312e81] flex flex-col font-sans">
 
@@ -20,7 +25,7 @@ export default function TopicMap({ avatar, onSelect, onBack }: TopicMapProps) {
           <div className="w-10 h-10 border-2 border-[#312e81] shadow-[2px_2px_0px_0px_rgba(49,46,129,1)] rounded-full flex items-center justify-center bg-white shrink-0">
             <img src={avatar.image} alt={avatar.name} className="w-9 h-9 object-contain" />
           </div>
-          <h1 className="font-black text-base tracking-tighter uppercase italic leading-none text-[#312e81]">RIBBIT</h1>
+          <h1 className="font-black text-base tracking-tighter uppercase italic leading-none text-[#312e81]">{nickname}</h1>
         </div>
         <button
           onClick={onBack}
@@ -66,27 +71,27 @@ export default function TopicMap({ avatar, onSelect, onBack }: TopicMapProps) {
 
           <MapPoint
             x="25%" y="30%"
-            title="Library & Academic" subtitle="학업/오피스"
+            title="Introduction" subtitle="자기소개"
             icon={<School size={20} />}
-            onClick={() => onSelect('DAILY', '오피스/학업')}
+            onClick={() => onSelect('/explore/introduction', '자기소개')}
           />
           <MapPoint
             x="75%" y="44%"
-            title="Social Quad" subtitle="일상 대화"
+            title="Speaking" subtitle="일상 회화"
             icon={<Users size={20} />}
-            onClick={() => onSelect('DAILY', '일상 대화')}
+            onClick={() => onSelect('/explore/speaking', '일상 회화')}
           />
           <MapPoint
             x="30%" y="62%"
-            title="Donut Cafe" subtitle="식당/카페"
+            title="Classroom" subtitle="강의실"
             icon={<Coffee size={20} />}
-            onClick={() => onSelect('TRAVEL', '식당/카페')}
+            onClick={() => onSelect('/explore/classroom', '강의실')}
           />
           <MapPoint
             x="70%" y="78%"
-            title="Campus Store" subtitle="쇼핑/세금"
+            title="Academic" subtitle="과목"
             icon={<ShoppingBag size={20} />}
-            onClick={() => onSelect('TRAVEL', '쇼핑/세금')}
+            onClick={() => onSelect('/explore/subject', '과목/세금')}
           />
         </div>
       </div>

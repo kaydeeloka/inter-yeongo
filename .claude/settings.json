@@ -12,7 +12,8 @@
       "PowerShell(@\\('app\\\\explore\\\\subjects\\\\page.tsx', 'app\\\\learn\\\\page.tsx'\\) | ForEach-Object { \"=== $_ ===\" ; Get-Content \"d:\\\\Developer\\\\InterYeongo\\\\$_\" -ErrorAction SilentlyContinue })",
       "Bash(git fetch *)",
       "Bash(git stash *)",
-      "Bash(git merge *)"
+      "Bash(git merge *)",
+      "PowerShell(Rename-Item \"d:\\\\Developer\\\\InterYeongo\\\\app\\\\explore\\\\subjects\" \"subject\")"
     ]
   }
 }
