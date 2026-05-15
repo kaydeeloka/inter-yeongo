@@ -21,6 +21,19 @@ export type RoadmapDisplayStatus = 'completed' | 'current' | 'upcoming';
 
 export type RoadmapNodeCoords = { xPct: number; yPct: number };
 
+export type RoadmapModalIcon = 'intro' | 'speaking' | 'classroom' | 'subjects';
+
+export interface RoadmapMissionModal {
+  /** English headline in pink header */
+  title: string;
+  subtitleKo: string;
+  description: string;
+  features: string[];
+  cta: string;
+  ctaHint: string;
+  icon: RoadmapModalIcon;
+}
+
 export interface RoadmapLesson {
   id: string;
   titleKo: string;
@@ -32,6 +45,7 @@ export interface RoadmapLesson {
   progressTotal: number;
   displayStatus: RoadmapDisplayStatus;
   center: { wide: RoadmapNodeCoords; narrow: RoadmapNodeCoords };
+  modal: RoadmapMissionModal;
 }
 
 export const ROADMAP_LESSONS: RoadmapLesson[] = [
@@ -49,6 +63,20 @@ export const ROADMAP_LESSONS: RoadmapLesson[] = [
       wide: { xPct: 8, yPct: 50 },
       narrow: { xPct: 50, yPct: 90 },
     },
+    modal: {
+      title: 'Introduction',
+      subtitleKo: '자기소개 미션',
+      description: '처음 만난 사람에게 자연스럽게 나를 소개하는 연습을 해요.',
+      features: [
+        '이름, 전공, 관심사 말하기',
+        '어색하지 않은 첫인사 표현',
+        '동아리/수업에서 쓰는 자기소개',
+        '짧고 자연스러운 답변 연습',
+      ],
+      cta: 'Start Introduction 자기소개 시작',
+      ctaHint: '버튼을 눌러 구역으로 이동합니다.',
+      icon: 'intro',
+    },
   },
   {
     id: 'speaking',
@@ -63,6 +91,21 @@ export const ROADMAP_LESSONS: RoadmapLesson[] = [
     center: {
       wide: { xPct: 30, yPct: 30 },
       narrow: { xPct: 26, yPct: 64 },
+    },
+    modal: {
+      title: 'Real-life Situations',
+      subtitleKo: '실생활 회화',
+      description:
+        '짧은 영어 문장을 듣고 따라 말하며 발음과 전달력을 확인해요.',
+      features: [
+        '카페, 편의점, 수업, 데이트, 쇼핑 표현',
+        '원어민 느낌의 문장 듣기',
+        '마이크로 직접 말하기',
+        '발음 점수와 피드백 확인',
+      ],
+      cta: 'Choose Situation 상황 선택',
+      ctaHint: '버튼을 눌러 구역으로 이동합니다.',
+      icon: 'speaking',
     },
   },
   {
@@ -79,6 +122,21 @@ export const ROADMAP_LESSONS: RoadmapLesson[] = [
       wide: { xPct: 56, yPct: 48 },
       narrow: { xPct: 74, yPct: 42 },
     },
+    modal: {
+      title: 'Classroom Survival',
+      subtitleKo: '수업 생존 영어',
+      description:
+        '교수님, 발표, 조별과제 상황에서 바로 쓸 수 있는 표현을 연습해요.',
+      features: [
+        '교수님께 정중하게 말하기',
+        '과제/발표 상황 설명하기',
+        '조별과제 위기 표현',
+        '수업 중 질문과 답변 연습',
+      ],
+      cta: 'Enter Classroom 수업 입장',
+      ctaHint: '버튼을 눌러 구역으로 이동합니다.',
+      icon: 'classroom',
+    },
   },
   {
     id: 'subjects',
@@ -93,6 +151,21 @@ export const ROADMAP_LESSONS: RoadmapLesson[] = [
     center: {
       wide: { xPct: 92, yPct: 28 },
       narrow: { xPct: 50, yPct: 14 },
+    },
+    modal: {
+      title: 'Subject Quest',
+      subtitleKo: '전공·과목 영어',
+      description:
+        '수업과 전공에서 자주 나오는 단어와 표현을 게임처럼 익혀요.',
+      features: [
+        '전공 과목 기본 단어',
+        '시험/과제 관련 표현',
+        '짧은 퀴즈형 미션',
+        '학습 진행도 확인',
+      ],
+      cta: 'Start Subject Quest 과목 미션 시작',
+      ctaHint: '버튼을 눌러 구역으로 이동합니다.',
+      icon: 'subjects',
     },
   },
 ];

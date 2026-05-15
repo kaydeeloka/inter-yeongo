@@ -3,9 +3,10 @@
 import { useId } from 'react';
 import { motion } from 'framer-motion';
 
+import { EXPLORE_THEME } from '@/data/explore-theme';
+
 interface RoadmapPathProps {
   pathD: string;
-  /** Emphasize path while user hovers a node */
   emphasized: boolean;
 }
 
@@ -21,9 +22,9 @@ export default function RoadmapPath({ pathD, emphasized }: RoadmapPathProps) {
     >
       <defs>
         <linearGradient id={`rp-line-${gid}`} x1="0%" y1="100%" x2="100%" y2="0%">
-          <stop offset="0%" stopColor="#7aab84" stopOpacity="0.35" />
-          <stop offset="50%" stopColor="#5c8f6a" stopOpacity="0.65" />
-          <stop offset="100%" stopColor="#7aab84" stopOpacity="0.35" />
+          <stop offset="0%" stopColor="#302B8F" stopOpacity="0.22" />
+          <stop offset="50%" stopColor="#302B8F" stopOpacity="0.42" />
+          <stop offset="100%" stopColor="#302B8F" stopOpacity="0.22" />
         </linearGradient>
       </defs>
       <path
@@ -40,10 +41,11 @@ export default function RoadmapPath({ pathD, emphasized }: RoadmapPathProps) {
       <motion.path
         d={pathD}
         fill="none"
-        stroke="#6a9b78"
+        stroke={EXPLORE_THEME.primary}
         strokeWidth={emphasized ? 0.65 : 0.45}
         strokeLinecap="round"
         strokeDasharray="4 6"
+        strokeOpacity={0.35}
         initial={{ strokeDashoffset: 0 }}
         animate={{ strokeDashoffset: -28 }}
         transition={{ duration: 3.6, repeat: Infinity, ease: 'linear' }}
