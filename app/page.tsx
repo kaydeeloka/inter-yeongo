@@ -24,7 +24,7 @@ export default function Home() {
   const [activeTrack, setActiveTrack] = useState('DAILY');
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState('전체');
-  const [bookmarks, setBookmarks] = useState<number[]>([]);
+  const [bookmarks] = useState<number[]>([]);
 
   if (view === 'landing') {
     return <LandingPage onStart={() => setView('avatars')} avatar={selectedAvatar} />;

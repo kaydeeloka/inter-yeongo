@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { Trophy, Volume2, RefreshCcw } from 'lucide-react';
+import { useState } from 'react';
+import { Trophy, Volume2 } from 'lucide-react';
 import FrogMascot from '@/components/FrogMascot';
 import { EXPRESSIONS } from '@/data/expressions';
 import { useAudio } from '@/hooks/useAudio';
@@ -14,29 +14,30 @@ interface VarietyGameProps {
 type GameMode = 'CHOICE' | 'LISTENING';
 type Feedback = 'correct' | 'wrong' | null;
 
+function createRound(): { currentQ: Expression; options: Expression[]; mode: GameMode } {
+  const nextQ = EXPRESSIONS[Math.floor(Math.random() * EXPRESSIONS.length)];
+  const mode = (['CHOICE', 'LISTENING'] as GameMode[])[Math.floor(Math.random() * 2)];
+  const decoys = EXPRESSIONS.filter((e) => e.id !== nextQ.id)
+    .sort(() => 0.5 - Math.random())
+    .slice(0, 3);
+  const options = [...decoys, nextQ].sort(() => 0.5 - Math.random());
+  return { currentQ: nextQ, options, mode };
+}
+
 export default function VarietyGame({ avatar }: VarietyGameProps) {
   const { playAudio } = useAudio();
   const [score, setScore] = useState(0);
   const [feedback, setFeedback] = useState<Feedback>(null);
-  const [mode, setMode] = useState<GameMode>('CHOICE');
-  const [currentQ, setCurrentQ] = useState<Expression | null>(null);
-  const [options, setOptions] = useState<Expression[]>([]);
+  const [round, setRound] = useState(createRound);
+  const { currentQ, options, mode } = round;
 
   const initQuestion = () => {
-    const nextQ = EXPRESSIONS[Math.floor(Math.random() * EXPRESSIONS.length)];
-    setCurrentQ(nextQ);
-    setMode((['CHOICE', 'LISTENING'] as GameMode[])[Math.floor(Math.random() * 2)]);
-    const decoys = EXPRESSIONS.filter((e) => e.id !== nextQ.id)
-      .sort(() => 0.5 - Math.random())
-      .slice(0, 3);
-    setOptions([...decoys, nextQ].sort(() => 0.5 - Math.random()));
+    setRound(createRound());
     setFeedback(null);
   };
 
-  useEffect(() => { initQuestion(); }, []);
-
   const handleChoice = (id: number) => {
-    if (id === currentQ!.id) {
+    if (id === currentQ.id) {
       setFeedback('correct');
       setScore((s) => s + 10);
       setTimeout(initQuestion, 1000);
@@ -45,8 +46,6 @@ export default function VarietyGame({ avatar }: VarietyGameProps) {
       setTimeout(() => setFeedback(null), 800);
     }
   };
-
-  if (!currentQ) return null;
 
   return (
     <div className="space-y-4">
@@ -76,6 +75,7 @@ export default function VarietyGame({ avatar }: VarietyGameProps) {
         {mode === 'LISTENING' ? (
           <div className="space-y-4 pt-4">
             <button
+              type="button"
               onClick={() => playAudio(currentQ.en, 'game')}
               className="w-16 h-16 bg-yellow-100 border-2 border-[#312e81] shadow-[4px_4px_0px_0px_rgba(49,46,129,1)] rounded-full mx-auto flex items-center justify-center hover:scale-105 active:scale-95"
             >
@@ -97,6 +97,7 @@ export default function VarietyGame({ avatar }: VarietyGameProps) {
         {options.map((opt) => (
           <button
             key={opt.id}
+            type="button"
             onClick={() => handleChoice(opt.id)}
             className="w-full p-4 bg-white border-2 border-[#312e81] font-black text-left shadow-[4px_4px_0px_0px_rgba(49,46,129,1)] hover:bg-yellow-50 transition-all rounded-xl active:translate-x-1 active:translate-y-1 active:shadow-none"
           >
