@@ -1,6 +1,7 @@
 'use client';
 
-import { ArrowLeft, Library, School, Users, Coffee, ShoppingBag } from 'lucide-react';
+import Link from 'next/link';
+import { ArrowLeft, Library, School, Users, Coffee, ShoppingBag, Map } from 'lucide-react';
 import FrogMascot from '@/components/FrogMascot';
 import MapPoint from '@/components/MapPoint';
 import type { Avatar } from '@/types';
@@ -18,12 +19,21 @@ export default function TopicMap({ avatar, onSelect, onBack }: TopicMapProps) {
         <div className="text-white font-black flex items-center gap-2 italic uppercase text-sm">
           <Library size={18} /> RIBBIT Knowledge Path
         </div>
-        <button
-          onClick={onBack}
-          className="bg-white p-1.5 border-2 border-[#312e81] rounded-lg shadow-[2px_2px_0px_0px_rgba(49,46,129,1)]"
-        >
-          <ArrowLeft size={18} />
-        </button>
+        <div className="flex items-center gap-2">
+          <Link
+            href="/explore"
+            className="bg-white p-1.5 border-2 border-[#312e81] rounded-lg shadow-[2px_2px_0px_0px_rgba(49,46,129,1)] flex items-center gap-1 text-[10px] font-black uppercase text-[#312e81] px-2"
+          >
+            <Map size={16} />
+            <span className="hidden sm:inline">Campus</span>
+          </Link>
+          <button
+            onClick={onBack}
+            className="bg-white p-1.5 border-2 border-[#312e81] rounded-lg shadow-[2px_2px_0px_0px_rgba(49,46,129,1)]"
+          >
+            <ArrowLeft size={18} />
+          </button>
+        </div>
       </header>
 
       <div className="flex-1 flex flex-col items-center p-4 pt-8">

@@ -1,0 +1,102 @@
+/**
+ * LingoDeer-style roadmap — building assets under `public/explore/hub/`.
+ * Coordinates use a shared 0–100 viewBox (x = horizontal, y = vertical).
+ */
+export const ROADMAP_BUILDING_IMAGES = {
+  introduction: '/explore/hub/lab.png',
+  speaking: '/explore/hub/broadcast.png',
+  classroom: '/explore/hub/classroom.webp',
+  subjects: '/explore/hub/library.png',
+} as const;
+
+/** Vertical journey (viewports below md): bottom → top. */
+export const ROADMAP_PATH_MOBILE =
+  'M 50 92 C 44 82 32 74 26 64 C 20 54 38 48 58 44 C 78 40 82 30 72 22 C 62 16 54 14 50 14';
+
+/** Horizontal journey (md+): Introduction → Speaking → Classroom → Subjects. */
+export const ROADMAP_PATH_DESKTOP =
+  'M 8 50 C 14 38 22 32 30 28 C 40 22 46 36 56 48 C 64 56 72 42 82 34 C 88 30 90 30 92 28';
+
+export type RoadmapDisplayStatus = 'completed' | 'current' | 'upcoming';
+
+export type RoadmapNodeCoords = { xPct: number; yPct: number };
+
+export interface RoadmapLesson {
+  id: string;
+  titleKo: string;
+  titleEn: string;
+  route: string;
+  imageSrc: string;
+  missionShort: string;
+  progressCurrent: number;
+  progressTotal: number;
+  displayStatus: RoadmapDisplayStatus;
+  center: { wide: RoadmapNodeCoords; narrow: RoadmapNodeCoords };
+}
+
+export const ROADMAP_LESSONS: RoadmapLesson[] = [
+  {
+    id: 'introduction',
+    titleKo: '인트로덕션',
+    titleEn: 'Introduction',
+    route: '/explore/introduction',
+    imageSrc: ROADMAP_BUILDING_IMAGES.introduction,
+    missionShort: '첫 만남 자기소개로 모험을 시작해요.',
+    progressCurrent: 0,
+    progressTotal: 1,
+    displayStatus: 'current',
+    center: {
+      wide: { xPct: 8, yPct: 50 },
+      narrow: { xPct: 50, yPct: 90 },
+    },
+  },
+  {
+    id: 'speaking',
+    titleKo: '스피킹',
+    titleEn: 'Speaking',
+    route: '/explore/speaking',
+    imageSrc: ROADMAP_BUILDING_IMAGES.speaking,
+    missionShort: '말하면 통과. 발음과 리듬을 다듬어요.',
+    progressCurrent: 0,
+    progressTotal: 5,
+    displayStatus: 'upcoming',
+    center: {
+      wide: { xPct: 30, yPct: 30 },
+      narrow: { xPct: 26, yPct: 64 },
+    },
+  },
+  {
+    id: 'classroom',
+    titleKo: '클래스룸',
+    titleEn: 'Classroom',
+    route: '/explore/classroom',
+    imageSrc: ROADMAP_BUILDING_IMAGES.classroom,
+    missionShort: '수업·팀플 상황 영어를 연습해요.',
+    progressCurrent: 0,
+    progressTotal: 4,
+    displayStatus: 'upcoming',
+    center: {
+      wide: { xPct: 56, yPct: 48 },
+      narrow: { xPct: 74, yPct: 42 },
+    },
+  },
+  {
+    id: 'subjects',
+    titleKo: '서브젝트',
+    titleEn: 'Subjects',
+    route: '/explore/subjects',
+    imageSrc: ROADMAP_BUILDING_IMAGES.subjects,
+    missionShort: '전공·과목 어휘 미션.',
+    progressCurrent: 0,
+    progressTotal: 5,
+    displayStatus: 'upcoming',
+    center: {
+      wide: { xPct: 92, yPct: 28 },
+      narrow: { xPct: 50, yPct: 14 },
+    },
+  },
+];
+
+export function roadmapPathForLayout(wide: boolean): string {
+  return wide ? ROADMAP_PATH_DESKTOP : ROADMAP_PATH_MOBILE;
+}
