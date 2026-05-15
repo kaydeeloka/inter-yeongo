@@ -13,17 +13,6 @@ export default function Home() {
       {/* Text content — floats above background */}
       <div className="relative z-10 min-h-screen flex flex-col justify-center px-14 py-12 max-w-xl pb-24">
 
-        {/* Logo chip */}
-        <div className="flex items-center gap-3 mb-10 w-fit bg-[#312e81] border-4 border-[#312e81] rounded-2xl shadow-[4px_4px_0px_0px_rgba(0,0,0,0.25)] px-3 py-2">
-          <div className="bg-white rounded-xl p-1 shrink-0">
-            <img src={AVATARS[0].image} alt="RIBBIT" className="w-9 h-9 object-contain" />
-          </div>
-          <div>
-            <div className="font-black text-xl uppercase italic text-white leading-none tracking-tight">RIBBIT</div>
-            <div className="text-[9px] font-bold text-white/60 tracking-wider">대학생을 위한 영어 학습 플랫폼</div>
-          </div>
-        </div>
-
         <p className="font-black text-xl text-teal-600 mb-3 drop-shadow-sm">Hello! 안녕하세요 👋</p>
 
         <h1 className="font-black text-6xl leading-[1.05] tracking-tight mb-5 text-[#1e293b] drop-shadow-sm">

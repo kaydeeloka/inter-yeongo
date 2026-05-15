@@ -86,7 +86,7 @@ export default function SchoolBuilding({ className, asBackground, buildingOnly }
       {/* SCHOOL sign — rendered last so it sits in front of windows */}
       <rect x="322" y="258" width="156" height="26" fill="#C0392B" rx="3" />
       <text x="400" y="276" textAnchor="middle" fill="white" fontSize="15" fontWeight="bold"
-            fontFamily="Arial, sans-serif" letterSpacing="2">SCHOOL</text>
+            fontFamily="Arial, sans-serif" letterSpacing="2">CAMPUS</text>
     </svg>
   );
 }

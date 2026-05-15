@@ -40,20 +40,28 @@ const SchoolBus = ({ color, label }: { color: string; label: string }) => (
   </svg>
 );
 
-const TREES = [
+/* Left-side trees */
+const LEFT_TREES = [
   { left: '1%',  scale: 0.80 },
   { left: '6%',  scale: 1.10 },
-  { left: '13%', scale: 0.65 },
-  { left: '19%', scale: 1.20 },
-  { left: '26%', scale: 0.90 },
-  { left: '32%', scale: 1.05 },
+  { left: '12%', scale: 0.65 },
+  { left: '18%', scale: 1.20 },
+  { left: '24%', scale: 0.90 },
+  { left: '30%', scale: 1.05 },
 ];
 
-/* Frogs look like students approaching the entrance — spread diagonally */
+/* Three big trees at the drawn positions — rendered after building so they appear in front */
+const BIG_TREES = [
+  { left: '46%', scale: 1.80 }, // centre tree drawn in the open area at building edge
+  { left: '82%', scale: 1.40 }, // right-side tree drawn beside the building
+  { left: '91%', scale: 1.25 }, // far-right tree drawn at building corner
+];
+
+/* All frogs same size (2×); freshman rightmost near entrance door */
 const FROGS = [
-  { size: 68, bottom: 84,  left: '53%', avatar: AVATARS[2] }, // front/closest
-  { size: 52, bottom: 112, left: '59%', avatar: AVATARS[1] }, // mid
-  { size: 38, bottom: 138, left: '64%', avatar: AVATARS[0] }, // near door/smallest
+  { size: 104, bottom: 85, left: '50%', avatar: AVATARS[2], delay: '0s'   }, // Varsity
+  { size: 104, bottom: 85, left: '59%', avatar: AVATARS[1], delay: '0.35s' }, // Ace
+  { size: 104, bottom: 85, left: '68%', avatar: AVATARS[0], delay: '0.7s'  }, // Freshman — near door
 ];
 
 const ROAD_H = 80;
@@ -75,25 +83,17 @@ export default function SchoolBackground() {
           0%, 100% { transform: translateY(0px);   }
           50%       { transform: translateY(-12px); }
         }
+        @keyframes ribbitHop {
+          0%, 100% { transform: translateY(0px)   scaleX(1);    }
+          30%       { transform: translateY(-18px) scaleX(0.95); }
+          60%       { transform: translateY(-6px)  scaleX(1.02); }
+        }
       `}</style>
 
       {/* Sky */}
       <div className="absolute inset-0 bg-linear-to-b from-sky-300 to-blue-50" />
 
-      {/* Sun */}
-      <div className="absolute top-6 right-16 w-28 h-28"
-           style={{ animation: 'ribbitFloat 8s ease-in-out infinite' }}>
-        <svg viewBox="0 0 100 100" className="w-full h-full">
-          <circle cx="50" cy="50" r="30" fill="#fbbf24" />
-          {Array.from({ length: 8 }).map((_, i) => (
-            <line key={i} x1="50" y1="8" x2="50" y2="22"
-              stroke="#fbbf24" strokeWidth="5" strokeLinecap="round"
-              transform={`rotate(${i * 45} 50 50)`} />
-          ))}
-        </svg>
-      </div>
-
-      {/* Clouds */}
+      {/* Clouds — rendered before sun so sun draws on top */}
       <div className="absolute top-[10%] opacity-80"
            style={{ left: '-160px', animation: 'ribbitDrift 38s linear infinite' }}>
         <Cloud />
@@ -107,6 +107,19 @@ export default function SchoolBackground() {
         <Cloud />
       </div>
 
+      {/* Sun — after clouds so it renders above them */}
+      <div className="absolute top-6 right-16 w-28 h-28"
+           style={{ animation: 'ribbitFloat 8s ease-in-out infinite' }}>
+        <svg viewBox="0 0 100 100" className="w-full h-full">
+          <circle cx="50" cy="50" r="30" fill="#fbbf24" />
+          {Array.from({ length: 8 }).map((_, i) => (
+            <line key={i} x1="50" y1="8" x2="50" y2="22"
+              stroke="#fbbf24" strokeWidth="5" strokeLinecap="round"
+              transform={`rotate(${i * 45} 50 50)`} />
+          ))}
+        </svg>
+      </div>
+
       {/* Green grass strip above road */}
       <div className="absolute left-0 right-0 bg-green-500 border-t-2 border-green-700"
            style={{ bottom: ROAD_H, height: GRASS_H }} />
@@ -116,29 +129,42 @@ export default function SchoolBackground() {
         <SchoolBuilding buildingOnly className="w-full" />
       </div>
 
-      {/* Trees sitting on grass */}
-      {TREES.map(({ left, scale }, i) => (
-        <div key={i} className="absolute" style={{ bottom: ROAD_H, left }}>
+      {/* Left trees sitting on grass */}
+      {LEFT_TREES.map(({ left, scale }, i) => (
+        <div key={`l${i}`} className="absolute" style={{ bottom: ROAD_H, left }}>
           <Tree scale={scale} />
         </div>
       ))}
 
-      {/* Frog students walking toward entrance */}
-      {FROGS.map(({ size, bottom, left, avatar }) => (
+      {/* Three big trees at user-drawn positions — after building so they appear in front */}
+      {BIG_TREES.map(({ left, scale }, i) => (
+        <div key={`b${i}`} className="absolute" style={{ bottom: ROAD_H, left }}>
+          <Tree scale={scale} />
+        </div>
+      ))}
+
+      {/* Frog students — equal size, freshman nearest the door */}
+      {FROGS.map(({ size, bottom, left, avatar, delay }) => (
         <div
           key={avatar.id}
           className="absolute rounded-full border-4 border-[#312e81] bg-white overflow-hidden shadow-[3px_3px_0px_0px_rgba(49,46,129,0.35)]"
-          style={{ width: size, height: size, bottom, left }}
+          style={{ width: size, height: size, bottom, left, animation: `ribbitHop 1.2s ease-in-out ${delay} infinite` }}
         >
           <img src={avatar.image} alt={avatar.name} className="w-full h-full object-contain" />
         </div>
       ))}
 
-      {/* Road */}
-      <div className="absolute bottom-0 left-0 right-0 h-20 bg-slate-500 border-t-4 border-slate-600 flex items-center gap-3 px-4 overflow-hidden">
-        {Array.from({ length: 18 }).map((_, i) => (
-          <div key={i} className="shrink-0 w-10 h-1.5 bg-white/50 rounded-full" />
-        ))}
+      {/* Road — CSS repeating gradient so dashes fill the full width */}
+      <div className="absolute bottom-0 left-0 right-0 h-20 bg-slate-500 border-t-4 border-slate-600">
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: 'repeating-linear-gradient(90deg, rgba(255,255,255,0.5) 0px, rgba(255,255,255,0.5) 40px, transparent 40px, transparent 80px)',
+            backgroundPosition: '0 50%',
+            backgroundSize: '100% 6px',
+            backgroundRepeat: 'no-repeat',
+          }}
+        />
       </div>
 
       {/* School Bus */}
