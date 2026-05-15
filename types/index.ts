@@ -4,6 +4,7 @@ export interface Avatar {
   color: string;
   accessory: string;
   desc: string;
+  image: string;
 }
 
 export interface Expression {

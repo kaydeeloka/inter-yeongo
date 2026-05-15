@@ -1,8 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Trophy, Volume2 } from 'lucide-react';
-import FrogMascot from '@/components/FrogMascot';
+import { Trophy, Volume2, RefreshCcw } from 'lucide-react';
 import { EXPRESSIONS } from '@/data/expressions';
 import { useAudio } from '@/hooks/useAudio';
 import type { Avatar, Expression } from '@/types';
@@ -65,11 +64,7 @@ export default function VarietyGame({ avatar }: VarietyGameProps) {
         }`}
       >
         <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-20 h-20">
-          <FrogMascot
-            color={avatar.color}
-            accessory={avatar.accessory}
-            mood={feedback === 'correct' ? 'happy' : feedback === 'wrong' ? 'sad' : 'thinking'}
-          />
+          <img src={avatar.image} alt={avatar.name} className="w-full h-full object-contain" />
         </div>
 
         {mode === 'LISTENING' ? (
