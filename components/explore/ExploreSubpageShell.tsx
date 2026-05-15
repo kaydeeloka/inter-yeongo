@@ -20,7 +20,7 @@ export default function ExploreSubpageShell({
 }: ExploreSubpageShellProps) {
   return (
     <div
-      className="flex min-h-[100dvh] flex-col font-sans [color-scheme:light] antialiased"
+      className="flex min-h-dvh flex-col font-sans scheme-light antialiased"
       style={{
         background: `linear-gradient(to bottom, ${EXPLORE_THEME.bg}, ${EXPLORE_THEME.bgSoft})`,
         color: EXPLORE_THEME.text,

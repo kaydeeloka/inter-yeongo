@@ -93,7 +93,7 @@ function ModalInner({ lesson, onClose }: { lesson: RoadmapLesson; onClose: () =>
 
   return (
     <motion.div
-      className="fixed inset-0 z-[200] flex items-end justify-center p-3 sm:items-center sm:p-4 [color-scheme:light]"
+      className="fixed inset-0 z-200 flex items-end justify-center p-3 sm:items-center sm:p-4 scheme-light"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -113,7 +113,7 @@ function ModalInner({ lesson, onClose }: { lesson: RoadmapLesson; onClose: () =>
         aria-labelledby={titleId}
         tabIndex={-1}
         onKeyDown={onPanelKeyDown}
-        className="relative z-[1] flex max-h-[min(92dvh,720px)] w-full max-w-md flex-col overflow-hidden rounded-[1.25rem] bg-white shadow-2xl shadow-stone-900/25 sm:max-w-lg"
+        className="relative z-1 flex max-h-[min(92dvh,720px)] w-full max-w-md flex-col overflow-hidden rounded-[1.25rem] bg-white shadow-2xl shadow-stone-900/25 sm:max-w-lg"
         initial={{ opacity: 0, y: 16, scale: 0.97 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: 12, scale: 0.98 }}
@@ -125,7 +125,7 @@ function ModalInner({ lesson, onClose }: { lesson: RoadmapLesson; onClose: () =>
             ref={closeBtnRef}
             type="button"
             onClick={onClose}
-            className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full border border-white/40 text-white transition hover:bg-white/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full border border-white/40 text-white transition hover:bg-white/15 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
             aria-label="닫기"
           >
             <X className="h-5 w-5" strokeWidth={2.5} />
@@ -159,7 +159,7 @@ function ModalInner({ lesson, onClose }: { lesson: RoadmapLesson; onClose: () =>
           <button
             type="button"
             onClick={go}
-            className={`w-full rounded-xl px-4 py-3.5 text-center text-sm font-bold text-white shadow-md transition ${CTA_PINK} focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ff4d8d]`}
+            className={`w-full rounded-xl px-4 py-3.5 text-center text-sm font-bold text-white shadow-md transition ${CTA_PINK} focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ff4d8d]`}
           >
             {lesson.modal.cta}
           </button>

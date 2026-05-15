@@ -72,7 +72,7 @@ function NodeBody({
     >
       <div
         className={[
-          'relative flex items-center justify-center overflow-hidden rounded-full bg-gradient-to-b from-white to-[#FFFCF0]',
+          'relative flex items-center justify-center overflow-hidden rounded-full bg-linear-to-b from-white to-[#FFFCF0]',
           circleSize,
           ringClass(lesson.displayStatus, highlighted),
         ].join(' ')}
@@ -142,7 +142,7 @@ export default function RoadmapNode({
 
   if (layout === 'stack') {
     return (
-      <div className="relative z-10 w-full max-w-[17.5rem] shrink-0 px-1">
+      <div className="relative z-10 w-full max-w-70 shrink-0 px-1">
         <motion.div
           initial={false}
           animate={isCurrent ? { scale: [1, 1.015, 1] } : { scale: 1 }}
@@ -169,7 +169,7 @@ export default function RoadmapNode({
 
   return (
     <motion.div
-      className="absolute z-10 flex w-[max(0px,calc(100%-1.5rem))] max-w-[min(100%,13.5rem)] -translate-x-1/2 -translate-y-1/2 flex-col items-center sm:max-w-[14.5rem] lg:max-w-[15rem]"
+      className="absolute z-10 flex w-[max(0px,calc(100%-1.5rem))] max-w-[min(100%,13.5rem)] -translate-x-1/2 -translate-y-1/2 flex-col items-center sm:max-w-58 lg:max-w-60"
       style={{ left: `${center.xPct}%`, top: `${center.yPct}%` }}
       initial={false}
       animate={isCurrent ? { scale: [1, 1.02, 1] } : { scale: 1 }}

@@ -13,7 +13,11 @@
       "Bash(git fetch *)",
       "Bash(git stash *)",
       "Bash(git merge *)",
-      "PowerShell(Rename-Item \"d:\\\\Developer\\\\InterYeongo\\\\app\\\\explore\\\\subjects\" \"subject\")"
+      "PowerShell(Rename-Item \"d:\\\\Developer\\\\InterYeongo\\\\app\\\\explore\\\\subjects\" \"subject\")",
+      "Bash(rm -rf d:/Developer/InterYeongo/app/explore/subjects)"
+    ],
+    "additionalDirectories": [
+      "d:\\Developer\\InterYeongo\\app\\explore\\subjects"
     ]
   }
 }

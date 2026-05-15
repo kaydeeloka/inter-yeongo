@@ -23,7 +23,7 @@ export default function ExploreRoadmap() {
 
   return (
     <div
-      className="min-h-[100dvh] font-sans [color-scheme:light] antialiased"
+      className="min-h-dvh font-sans scheme-light antialiased"
       style={{
         background: `linear-gradient(to bottom, ${EXPLORE_THEME.bg}, ${EXPLORE_THEME.bgSoft})`,
         color: EXPLORE_THEME.text,
@@ -60,7 +60,7 @@ export default function ExploreRoadmap() {
         </div>
       </header>
 
-      <main className="relative z-[1] mx-auto w-full max-w-[min(96rem,calc(100vw-1.5rem))] px-3 pb-16 pt-4 sm:px-5 sm:pt-5 md:pb-14 lg:px-8 lg:pb-16">
+      <main className="relative z-1 mx-auto w-full max-w-[min(96rem,calc(100vw-1.5rem))] px-3 pb-16 pt-4 sm:px-5 sm:pt-5 md:pb-14 lg:px-8 lg:pb-16">
         <header className="mx-auto max-w-3xl text-center lg:max-w-4xl">
           <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#6F6A8A] sm:text-[11px]">
             Beginner path
@@ -78,14 +78,14 @@ export default function ExploreRoadmap() {
             'relative mx-auto mt-6 w-full rounded-[1.75rem] border-2 border-[#302B8F] bg-white shadow-[0_14px_40px_-14px_rgba(48,43,143,0.18)]',
             wide
               ? 'max-w-[min(92rem,calc(100vw-2rem))] overflow-hidden p-[clamp(0.75rem,3vw,2.5rem)] max-lg:max-w-5xl min-h-[clamp(380px,46vw,500px)]'
-              : 'max-w-[min(100%,20rem)] overflow-x-hidden px-3 py-8 sm:max-w-[22rem] sm:px-4 sm:py-10',
+              : 'max-w-[min(100%,20rem)] overflow-x-hidden px-3 py-8 sm:max-w-88 sm:px-4 sm:py-10',
           ].join(' ')}
         >
           {wide ? (
             <>
               <RoadmapPath pathD={pathD} emphasized={pathEmphasis} />
               <div
-                className="pointer-events-none absolute inset-x-0 bottom-0 h-1/4 rounded-b-[1.6rem] bg-gradient-to-t from-[#FFF9E8]/95 to-transparent md:h-1/5"
+                className="pointer-events-none absolute inset-x-0 bottom-0 h-1/4 rounded-b-[1.6rem] bg-linear-to-t from-[#FFF9E8]/95 to-transparent md:h-1/5"
                 aria-hidden
               />
               {ROADMAP_LESSONS.map((lesson) => (
