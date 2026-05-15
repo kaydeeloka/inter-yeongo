@@ -29,7 +29,7 @@ const CROSSWORD_GRID = [
   { id: 9, word: 'SCHOOL', clue: 'A place where students learn.', dir: 'down' },
 ];
 
-const base64ToArrayBuffer = (base64) => {
+const base64ToArrayBuffer = (base64: string): ArrayBuffer => {
   const binaryString = window.atob(base64);
   const len = binaryString.length;
   const bytes = new Uint8Array(len);
@@ -39,10 +39,10 @@ const base64ToArrayBuffer = (base64) => {
   return bytes.buffer;
 };
 
-const pcmToWav = (pcmData, sampleRate) => {
+const pcmToWav = (pcmData: Int16Array, sampleRate: number): Blob => {
   const buffer = new ArrayBuffer(44 + pcmData.length * 2);
   const view = new DataView(buffer);
-  const writeString = (offset, string) => {
+  const writeString = (offset: number, string: string): void => {
     for (let i = 0; i < string.length; i++) {
       view.setUint8(offset + i, string.charCodeAt(i));
     }
@@ -68,13 +68,13 @@ const pcmToWav = (pcmData, sampleRate) => {
 };
 
 export default function App() {
-  const [step, setStep] = useState('study'); // 'study' or 'game'
-  const [loadingAudio, setLoadingAudio] = useState(null);
-  const [answers, setAnswers] = useState({});
+  const [step, setStep] = useState<'study' | 'game'>('study');
+  const [loadingAudio, setLoadingAudio] = useState<number | null>(null);
+  const [answers, setAnswers] = useState<Record<number, string>>({});
   const [gameComplete, setGameComplete] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-  const handleSpeak = async (text, id) => {
+  const handleSpeak = async (text: string, id: number): Promise<void> => {
     try {
       setLoadingAudio(id);
       const payload = {
@@ -112,7 +112,7 @@ export default function App() {
     }
   };
 
-  const handleInputChange = (id, value) => {
+  const handleInputChange = (id: number, value: string): void => {
     setAnswers(prev => ({ ...prev, [id]: value.toUpperCase() }));
     setErrorMessage('');
   };
