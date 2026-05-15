@@ -2,9 +2,10 @@
 
 import Link from 'next/link';
 import { useCallback, useMemo, useState } from 'react';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, BookOpen, MessageCircle } from 'lucide-react';
 
 import IntroBuilderCard from '@/components/introduction/IntroBuilderCard';
+import IntroConversation from '@/components/introduction/IntroConversation';
 import IntroFeedback from '@/components/introduction/IntroFeedback';
 import IntroPracticeControls from '@/components/introduction/IntroPracticeControls';
 import IntroPreview from '@/components/introduction/IntroPreview';
@@ -14,13 +15,14 @@ import { cancelSpeech, isSpeechSynthesisSupported, speakEnglish } from '@/lib/sp
 import { scoreSpeechMatch, type SpeechScoreResult } from '@/lib/speech-scoring';
 import type { Avatar } from '@/types';
 
-const emptyFields: IntroFields = { name: '', age: '', country: '', major: '', goodAt: '' };
+const emptyFields: IntroFields = { name: '', major: '', goodAt: '', interest: '' };
 
 interface IntroductionMissionProps {
   avatar: Avatar;
 }
 
 export default function IntroductionMission({ avatar }: IntroductionMissionProps) {
+  const [mode, setMode] = useState<'write' | 'talk'>('talk');
   const [fields, setFields] = useState<IntroFields>(emptyFields);
   const [ttsPlaying, setTtsPlaying] = useState(false);
   const [transcript, setTranscript] = useState<string | null>(null);
@@ -93,7 +95,36 @@ export default function IntroductionMission({ avatar }: IntroductionMissionProps
   const practiceDisabled = !filled || listening || ttsPlaying || !recognitionSupported;
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+    <div className="flex flex-col gap-6">
+
+      {/* Mode tabs */}
+      <div className="flex justify-center">
+        <div className="flex bg-white border-4 border-[#312e81] rounded-2xl shadow-[4px_4px_0px_0px_rgba(49,46,129,1)] overflow-hidden">
+          <button
+            onClick={() => setMode('talk')}
+            className={`px-8 py-3 font-black uppercase text-sm flex items-center gap-2 transition-all ${
+              mode === 'talk' ? 'bg-[#312e81] text-white' : 'text-[#312e81] hover:bg-yellow-100'
+            }`}
+          >
+            <MessageCircle className="w-4 h-4" /> 대화 연습
+          </button>
+          <div className="w-1 bg-[#312e81]" />
+          <button
+            onClick={() => setMode('write')}
+            className={`px-8 py-3 font-black uppercase text-sm flex items-center gap-2 transition-all ${
+              mode === 'write' ? 'bg-[#312e81] text-white' : 'text-[#312e81] hover:bg-yellow-100'
+            }`}
+          >
+            <BookOpen className="w-4 h-4" /> 쓰기 연습
+          </button>
+        </div>
+      </div>
+
+      {/* Talk mode */}
+      {mode === 'talk' && <IntroConversation avatar={avatar} />}
+
+      {/* Write mode */}
+      {mode === 'write' && <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
 
       {/* Left: form */}
       <IntroBuilderCard values={fields} onChange={patchFields} />
@@ -149,6 +180,8 @@ export default function IntroductionMission({ avatar }: IntroductionMissionProps
           <ArrowRight className="h-4 w-4" aria-hidden />
         </Link>
       </div>
+      </div>}
+
     </div>
   );
 }

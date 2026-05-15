@@ -20,9 +20,9 @@ export default function IntroBuilderCard({ values, onChange }: IntroBuilderCardP
         내 정보
       </h2>
       <p className="mt-1 text-xs font-bold text-[#312e81]/50">간단히 적으면 아래에서 영어 문장이 만들어져요.</p>
-      <div className="mt-5 grid gap-4 sm:grid-cols-2">
+      <div className="mt-5 flex flex-col gap-4">
         <label className="block text-xs font-black uppercase tracking-widest text-[#312e81]">
-          이름
+          My Name
           <input
             className={inputClass}
             value={values.name}
@@ -33,28 +33,7 @@ export default function IntroBuilderCard({ values, onChange }: IntroBuilderCardP
           />
         </label>
         <label className="block text-xs font-black uppercase tracking-widest text-[#312e81]">
-          나이
-          <input
-            className={inputClass}
-            value={values.age}
-            onChange={(e) => onChange({ age: e.target.value })}
-            placeholder="예: 20"
-            maxLength={3}
-            inputMode="numeric"
-          />
-        </label>
-        <label className="block text-xs font-black uppercase tracking-widest text-[#312e81]">
-          국적
-          <input
-            className={inputClass}
-            value={values.country}
-            onChange={(e) => onChange({ country: e.target.value })}
-            placeholder="예: South Korea"
-            maxLength={40}
-          />
-        </label>
-        <label className="block text-xs font-black uppercase tracking-widest text-[#312e81]">
-          전공
+          My Major
           <input
             className={inputClass}
             value={values.major}
@@ -63,13 +42,23 @@ export default function IntroBuilderCard({ values, onChange }: IntroBuilderCardP
             maxLength={64}
           />
         </label>
-        <label className="block text-xs font-black uppercase tracking-widest text-[#312e81] sm:col-span-2">
-          잘하는 것
+        <label className="block text-xs font-black uppercase tracking-widest text-[#312e81]">
+          I'm Good At
           <input
             className={inputClass}
             value={values.goodAt}
             onChange={(e) => onChange({ goodAt: e.target.value })}
             placeholder="예: public speaking, coding"
+            maxLength={80}
+          />
+        </label>
+        <label className="block text-xs font-black uppercase tracking-widest text-[#312e81]">
+          My Interest
+          <input
+            className={inputClass}
+            value={values.interest}
+            onChange={(e) => onChange({ interest: e.target.value })}
+            placeholder="예: web development, films"
             maxLength={80}
           />
         </label>
