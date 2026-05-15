@@ -1,0 +1,317 @@
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import { Volume2, ChevronRight, CheckCircle2, RotateCcw, Brain, School, Info } from 'lucide-react';
+
+const SUBJECT_WORDS = [
+  { id: 1, word: 'Science', meaning: '과학 - 자연 현상을 연구하는 과목', clue: 'The study of nature and the physical world.' },
+  { id: 2, word: 'Mathematics', meaning: '수학 - 수와 도형을 다루는 과목', clue: 'The study of numbers, shapes, and patterns.' },
+  { id: 3, word: 'History', meaning: '역사 - 과거의 사건을 배우는 과목', clue: 'The study of past events.' },
+  { id: 4, word: 'Geography', meaning: '지리 - 땅과 지역의 특성을 배우는 과목', clue: 'The study of places and environments.' },
+  { id: 5, word: 'Biology', meaning: '생물학 - 생명체를 연구하는 과학의 한 분야', clue: 'The study of living organisms.' },
+  { id: 6, word: 'Literature', meaning: '문학 - 시, 소설 등의 글을 배우는 과목', clue: 'Written works such as novels and poetry.' },
+  { id: 7, word: 'Physics', meaning: '물리학 - 물질과 에너지의 성질을 배우는 과목', clue: 'The study of matter, energy, and motion.' },
+  { id: 8, word: 'Music', meaning: '음악 - 소리로 예술을 표현하는 과목', clue: 'The art of sound and rhythm.' },
+  { id: 9, word: 'Art', meaning: '미술 - 그림이나 조각 등을 배우는 과목', clue: 'Visual expression of creativity.' },
+  { id: 10, word: 'Library', meaning: '도서관 - 책을 읽고 빌리는 장소', clue: 'A place where books are kept for reading.' },
+];
+
+const CROSSWORD_GRID = [
+  { id: 0, word: 'SCIENCE', clue: 'The study of nature and the physical world.', dir: 'across' },
+  { id: 1, word: 'HISTORY', clue: 'The study of past events.', dir: 'across' },
+  { id: 2, word: 'MUSIC', clue: 'The art of sound and rhythm.', dir: 'across' },
+  { id: 3, word: 'ART', clue: 'Visual expression of creativity.', dir: 'across' },
+  { id: 4, word: 'BIOLOGY', clue: 'The study of living organisms.', dir: 'down' },
+  { id: 5, word: 'PHYSICS', clue: 'The study of matter and energy.', dir: 'down' },
+  { id: 6, word: 'LIBRARY', clue: 'A place where books are kept.', dir: 'down' },
+  { id: 7, word: 'MATH', clue: 'The study of numbers (Short for Mathematics).', dir: 'across' },
+  { id: 8, word: 'ENGLISH', clue: 'A global language often learned.', dir: 'down' },
+  { id: 9, word: 'SCHOOL', clue: 'A place where students learn.', dir: 'down' },
+];
+
+const base64ToArrayBuffer = (base64) => {
+  const binaryString = window.atob(base64);
+  const len = binaryString.length;
+  const bytes = new Uint8Array(len);
+  for (let i = 0; i < len; i++) {
+    bytes[i] = binaryString.charCodeAt(i);
+  }
+  return bytes.buffer;
+};
+
+const pcmToWav = (pcmData, sampleRate) => {
+  const buffer = new ArrayBuffer(44 + pcmData.length * 2);
+  const view = new DataView(buffer);
+  const writeString = (offset, string) => {
+    for (let i = 0; i < string.length; i++) {
+      view.setUint8(offset + i, string.charCodeAt(i));
+    }
+  };
+  writeString(0, 'RIFF');
+  view.setUint32(4, 36 + pcmData.length * 2, true);
+  writeString(8, 'WAVE');
+  writeString(12, 'fmt ');
+  view.setUint32(16, 16, true);
+  view.setUint16(20, 1, true);
+  view.setUint16(22, 1, true);
+  view.setUint32(24, sampleRate, true);
+  view.setUint32(28, sampleRate * 2, true);
+  view.setUint16(32, 2, true);
+  view.setUint16(34, 16, true);
+  writeString(36, 'data');
+  view.setUint32(40, pcmData.length * 2, true);
+  let offset = 44;
+  for (let i = 0; i < pcmData.length; i++, offset += 2) {
+    view.setInt16(offset, pcmData[i], true);
+  }
+  return new Blob([buffer], { type: 'audio/wav' });
+};
+
+export default function App() {
+  const [step, setStep] = useState('study'); // 'study' or 'game'
+  const [loadingAudio, setLoadingAudio] = useState(null);
+  const [answers, setAnswers] = useState({});
+  const [gameComplete, setGameComplete] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const handleSpeak = async (text, id) => {
+    try {
+      setLoadingAudio(id);
+      const payload = {
+        contents: [{ parts: [{ text: `Say clearly: ${text}` }] }],
+        generationConfig: {
+          responseModalities: ["AUDIO"],
+          speechConfig: {
+            voiceConfig: { prebuiltVoiceConfig: { voiceName: "Puck" } }
+          }
+        }
+      };
+
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      const result = await response.json();
+      const audioData = result?.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
+      const mimeType = result?.candidates?.[0]?.content?.parts?.[0]?.inlineData?.mimeType;
+
+      if (audioData && mimeType) {
+        const sampleRate = parseInt(mimeType.match(/rate=(\d+)/)?.[1] || "24000", 10);
+        const pcmData = new Int16Array(base64ToArrayBuffer(audioData));
+        const wavBlob = pcmToWav(pcmData, sampleRate);
+        const audioUrl = URL.createObjectURL(wavBlob);
+        const audio = new Audio(audioUrl);
+        audio.play();
+      }
+    } catch (error) {
+      console.error("Audio generation failed", error);
+    } finally {
+      setLoadingAudio(null);
+    }
+  };
+
+  const handleInputChange = (id, value) => {
+    setAnswers(prev => ({ ...prev, [id]: value.toUpperCase() }));
+    setErrorMessage('');
+  };
+
+  const checkGame = () => {
+    let allCorrect = true;
+    let missingOrWrong = false;
+    
+    CROSSWORD_GRID.forEach((item) => {
+      if (answers[item.id] !== item.word.toUpperCase()) {
+        allCorrect = false;
+        missingOrWrong = true;
+      }
+    });
+
+    if (allCorrect) {
+      setGameComplete(true);
+      setErrorMessage('');
+    } else {
+      setErrorMessage('아직 틀린 부분이 있거나 빈칸이 있어요! 다시 한번 확인해 볼까요?');
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-white text-slate-800 font-sans p-4 md:p-8">
+      <div className="max-w-4xl mx-auto bg-white rounded-3xl shadow-2xl shadow-slate-200/60 overflow-hidden border border-slate-100">
+        
+        {/* Header */}
+        <header className="bg-white border-b border-slate-100 p-8 flex items-center justify-between">
+          <div>
+            <div className="flex items-center gap-2 mb-2">
+              <div className="p-2 bg-indigo-50 rounded-lg">
+                <School className="w-5 h-5 text-indigo-600" />
+              </div>
+              <span className="text-xs font-bold tracking-widest uppercase text-indigo-600">Learning Center</span>
+            </div>
+            <h1 className="text-3xl font-black text-slate-900 tracking-tight">과목 영단어 마스터 🎓</h1>
+            <p className="text-slate-500 mt-1">단어를 듣고 배우며 십자말 풀이에 도전하세요!</p>
+          </div>
+          <div className="hidden md:block">
+            <Brain className="w-12 h-12 text-indigo-100" />
+          </div>
+        </header>
+
+        {/* Tabs */}
+        <div className="flex bg-slate-50/50 p-2 gap-2">
+          <button 
+            onClick={() => setStep('study')}
+            className={`flex-1 py-3 rounded-xl font-bold transition-all ${step === 'study' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
+          >
+            1. 단어 공부하기
+          </button>
+          <button 
+            onClick={() => setStep('game')}
+            className={`flex-1 py-3 rounded-xl font-bold transition-all ${step === 'game' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
+          >
+            2. 십자말 풀이 게임
+          </button>
+        </div>
+
+        {/* Content Area */}
+        <main className="p-6 md:p-10 min-h-[600px]">
+          
+          {/* STEP 1: STUDY */}
+          {step === 'study' && (
+            <div className="animate-in fade-in slide-in-from-top-4 duration-500">
+              <div className="grid gap-4">
+                {SUBJECT_WORDS.map((item) => (
+                  <div key={item.id} className="group flex items-center bg-white border border-slate-100 p-5 rounded-2xl hover:border-indigo-200 hover:bg-indigo-50/10 transition-all duration-200 shadow-sm">
+                    {/* Speaker Button on the Left */}
+                    <button 
+                      onClick={() => handleSpeak(item.word, item.id)}
+                      disabled={loadingAudio === item.id}
+                      className={`mr-6 p-4 rounded-full transition-all ${loadingAudio === item.id ? 'bg-indigo-100 text-indigo-400' : 'bg-slate-50 text-indigo-600 hover:bg-indigo-600 hover:text-white shadow-inner'}`}
+                      aria-label="Listen pronunciation"
+                    >
+                      <Volume2 className={`w-6 h-6 ${loadingAudio === item.id ? 'animate-bounce' : ''}`} />
+                    </button>
+                    
+                    {/* Word Info on the Right */}
+                    <div className="flex-1">
+                      <div className="flex items-baseline gap-3 mb-1">
+                        <span className="text-2xl font-black text-slate-900">{item.word}</span>
+                        <span className="text-xs font-bold text-indigo-400">SUBJECT</span>
+                      </div>
+                      <p className="text-slate-600 font-medium">{item.meaning}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-12 flex justify-center">
+                <button 
+                  onClick={() => setStep('game')}
+                  className="flex items-center gap-3 bg-indigo-600 text-white px-10 py-5 rounded-2xl font-bold text-xl hover:bg-indigo-700 shadow-xl shadow-indigo-200 transition-all hover:scale-[1.02] active:scale-95"
+                >
+                  학습 완료! 게임하러 가기 <ChevronRight className="w-6 h-6" />
+                </button>
+              </div>
+            </div>
+          )}
+
+          {step === 'game' && (
+            <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+              {gameComplete ? (
+                <div className="text-center py-20 bg-green-50/30 rounded-3xl border border-green-100">
+                  <div className="inline-flex items-center justify-center w-24 h-24 bg-green-100 text-green-600 rounded-full mb-6 shadow-inner">
+                    <CheckCircle2 className="w-12 h-12" />
+                  </div>
+                  <h2 className="text-4xl font-black text-slate-900 mb-4 tracking-tight">참 잘했어요! 완벽해요! 🌟</h2>
+                  <p className="text-slate-600 text-lg mb-12 max-w-md mx-auto leading-relaxed">모든 과목 단어를 완벽하게 마스터했습니다. 이제 다른 과목 공부도 자신 있게 할 수 있겠네요!</p>
+                  <button 
+                    onClick={() => {setAnswers({}); setGameComplete(false); setStep('study');}}
+                    className="flex items-center gap-2 mx-auto bg-indigo-600 text-white px-8 py-4 rounded-2xl font-bold hover:bg-indigo-700 shadow-lg"
+                  >
+                    <RotateCcw className="w-5 h-5" /> 처음부터 다시 하기
+                  </button>
+                </div>
+              ) : (
+                <div className="flex flex-col gap-10">
+                  <div className="flex items-center gap-3 bg-amber-50 p-4 rounded-2xl border border-amber-100 text-amber-800 text-sm">
+                    <Info className="w-5 h-5 flex-shrink-0" />
+                    <p>학습한 단어들을 떠올리며 빈칸을 채워보세요. 힌트를 잘 읽어보세요!</p>
+                  </div>
+
+                  {errorMessage && (
+                    <div className="bg-rose-50 text-rose-600 p-4 rounded-xl border border-rose-100 font-bold animate-pulse">
+                      {errorMessage}
+                    </div>
+                  )}
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {CROSSWORD_GRID.map((item) => (
+                      <div key={item.id} className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+                        <div className="flex items-center justify-between mb-3">
+                          <span className={`text-[10px] font-black px-2 py-1 rounded-md uppercase tracking-widest ${item.dir === 'across' ? 'bg-blue-100 text-blue-700' : 'bg-purple-100 text-purple-700'}`}>
+                            {item.dir === 'across' ? '가로' : '세로'} 힌트
+                          </span>
+                          <span className="text-[10px] text-slate-400 font-mono">Length: {item.word.length}</span>
+                        </div>
+                        <p className="text-slate-800 font-semibold mb-4 leading-relaxed h-12 flex items-center italic">
+                          "{item.clue}"
+                        </p>
+                        <div className="relative">
+                           <input 
+                            type="text" 
+                            maxLength={item.word.length}
+                            placeholder="Type here..."
+                            value={answers[item.id] || ''}
+                            onChange={(e) => handleInputChange(item.id, e.target.value)}
+                            className="w-full bg-slate-50 border-2 border-slate-100 px-5 py-4 rounded-xl text-xl font-black tracking-[0.2em] text-indigo-600 focus:outline-none focus:border-indigo-400 focus:bg-white transition-all uppercase placeholder:text-slate-300 placeholder:tracking-normal placeholder:font-normal"
+                          />
+                          <div className="absolute right-4 top-1/2 -translate-y-1/2 flex gap-1">
+                            {Array.from({length: item.word.length}).map((_, i) => (
+                              <div key={i} className="w-1.5 h-1.5 rounded-full bg-slate-200"></div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  
+                  <div className="sticky bottom-4 md:bottom-8 bg-white/80 backdrop-blur-md p-4 rounded-3xl border border-slate-100 shadow-xl">
+                    <button 
+                      onClick={checkGame}
+                      className="w-full bg-indigo-600 text-white py-5 rounded-2xl font-black text-2xl hover:bg-indigo-700 shadow-lg shadow-indigo-100 transition-all hover:scale-[1.01] active:scale-95 flex items-center justify-center gap-3"
+                    >
+                      정답 확인하기! <CheckCircle2 className="w-7 h-7" />
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+        </main>
+
+        {/* Footer */}
+        <footer className="bg-slate-50 p-6 text-center border-t border-slate-100">
+          <p className="text-slate-400 text-xs font-bold uppercase tracking-widest italic">Easy Learning for Students</p>
+        </footer>
+      </div>
+
+      <style jsx>{`
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap');
+        
+        :global(body) {
+          font-family: 'Noto Sans KR', sans-serif;
+          background-color: #f8fafc;
+        }
+
+        .animate-in {
+          animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
+    </div>
+  );
+}
