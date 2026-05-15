@@ -2,7 +2,10 @@
   "permissions": {
     "allow": [
       "Bash(ls -la d:\\\\\\\\Developer\\\\\\\\InterYeongo)",
-      "Bash(npm install *)"
+      "Bash(npm install *)",
+      "Bash(gh repo *)",
+      "PowerShell(gh repo list kaydeeloka --json name,url 2>&1)",
+      "Bash(git remote *)"
     ]
   }
 }
