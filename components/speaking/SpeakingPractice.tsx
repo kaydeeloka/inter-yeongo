@@ -13,17 +13,18 @@ import {
 
 import {
   SPEAKING_CATEGORIES,
+  SPEAKING_CHALLENGES,
   challengesByCategory,
   type SpeakingCategoryId,
   type SpeakingChallenge,
-} from '@/data/speaking-challenges';
-import { scoreSpeechMatch } from '@/lib/speech-scoring';
-import { speakEnglish, cancelSpeech, isSpeechSynthesisSupported } from '@/lib/speech-synthesis';
-import { createChunkedRecorder, isMediaRecorderSupported, type RecordUntilStoppedResult } from '@/lib/speech-recording';
-import { useSpeechRecognition } from '@/hooks/useSpeechRecognition';
+} from '../../data/speaking-challenges';
+import { scoreSpeechMatch } from '../../lib/speech-scoring';
+import { speakEnglish, cancelSpeech, isSpeechSynthesisSupported } from '../../lib/speech-synthesis';
+import { createChunkedRecorder, isMediaRecorderSupported, type RecordUntilStoppedResult } from '../../lib/speech-recording';
+import { useSpeechRecognition } from '../../hooks/useSpeechRecognition';
 
-import CategoryTabs from '@/components/speaking/CategoryTabs';
-import SentencePracticeItem, { type RowStatus, type SentenceAttempt } from '@/components/speaking/SentencePracticeItem';
+import CategoryTabs from '../../components/speaking/CategoryTabs';
+import SentencePracticeItem, { type RowStatus, type SentenceAttempt } from '../../components/speaking/SentencePracticeItem';
 
 const MIN_RECORDING_BYTES = 256;
 
@@ -213,7 +214,7 @@ export default function SpeakingPractice() {
 
     start(
       {
-        onResult: (transcript) => {
+        onResult: (transcript: string) => {
           void finalizeRecordingSession().then((recResult) => {
             let recordedAudioUrl: string | null = null;
             const recordedAt: number | null = Date.now();
@@ -238,7 +239,7 @@ export default function SpeakingPractice() {
             setActiveRecordingSentenceId(null);
           });
         },
-        onError: (code) => {
+        onError: (code: string) => {
           if (code === 'not-supported' || code === 'service-not-allowed') {
             setToast(
               code === 'service-not-allowed'
@@ -313,7 +314,7 @@ export default function SpeakingPractice() {
       </div>
 
       <header className="sticky top-0 z-20 border-b border-indigo-100/90 bg-white/90 backdrop-blur-md shadow-sm shadow-indigo-900/5">
-        <div className="max-w-lg mx-auto px-4 h-[3.25rem] flex items-center justify-between gap-3">
+        <div className="max-w-lg mx-auto px-4 h-13 flex items-center justify-between gap-3">
           <Link
             href="/"
             className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-indigo-200/90 bg-white text-indigo-800 hover:bg-indigo-50 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
@@ -333,29 +334,6 @@ export default function SpeakingPractice() {
       </header>
 
       <main className="max-w-lg mx-auto px-4 pt-5 space-y-4 relative z-10">
-        <div className="rounded-2xl border border-indigo-100/90 bg-white/75 backdrop-blur-sm px-3 py-3 shadow-sm">
-          <p className="text-[11px] font-semibold text-indigo-500 uppercase tracking-wider text-center mb-2">
-            이렇게 하면 돼요
-          </p>
-          <div className="grid grid-cols-4 gap-2 text-center">
-            <div className="flex flex-col items-center gap-1">
-              <LayoutList className="w-4 h-4 text-indigo-500" aria-hidden />
-              <span className="text-[10px] text-indigo-800/90 leading-tight font-medium">탭</span>
-            </div>
-            <div className="flex flex-col items-center gap-1">
-              <MessageCircle className="w-4 h-4 text-indigo-500" aria-hidden />
-              <span className="text-[10px] text-indigo-800/90 leading-tight font-medium">문장</span>
-            </div>
-            <div className="flex flex-col items-center gap-1">
-              <Headphones className="w-4 h-4 text-indigo-500" aria-hidden />
-              <span className="text-[10px] text-indigo-800/90 leading-tight font-medium">듣기</span>
-            </div>
-            <div className="flex flex-col items-center gap-1">
-              <Mic className="w-4 h-4 text-rose-500" aria-hidden />
-              <span className="text-[10px] text-indigo-800/90 leading-tight font-medium">말하기</span>
-            </div>
-          </div>
-        </div>
 
         {recUnsupported && (
           <div className="rounded-2xl border border-amber-200/90 bg-amber-50/95 px-3 py-3 text-sm text-amber-950 space-y-2 shadow-sm">

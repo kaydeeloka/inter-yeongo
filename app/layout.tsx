@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "RIBBIT — 대학생을 위한 영어 학습",
-  description: "Interactive English learning platform for Korean university students",
+  description: "Real Interaction for Yeongo Learners -Interactive English learning platform for Korean university students",
 };
 
 export default function RootLayout({

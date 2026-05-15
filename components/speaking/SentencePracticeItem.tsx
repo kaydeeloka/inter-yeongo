@@ -121,7 +121,7 @@ export default function SentencePracticeItem({
                 <Mic className={`w-4 h-4 ${status === 'listening' ? 'animate-pulse' : ''}`} aria-hidden />
               </button>
             </div>
-            <span className="text-[10px] text-indigo-400/95 font-medium max-w-[10rem] text-right leading-tight">
+            <span className="text-[10px] text-indigo-400/95 font-medium max-w-40 text-right leading-tight">
               {playLabel}
             </span>
           </div>
