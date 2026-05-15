@@ -52,11 +52,6 @@ export default function SchoolBuilding({ className, asBackground, buildingOnly }
       <line x1="527" y1="208" x2="527" y2="248" stroke="#B0E8EB" strokeWidth="1.5" />
       <line x1="502" y1="228" x2="552" y2="228" stroke="#B0E8EB" strokeWidth="1"   />
 
-      {/* SCHOOL sign */}
-      <rect x="322" y="258" width="156" height="26" fill="#C0392B" rx="3" />
-      <text x="400" y="276" textAnchor="middle" fill="white" fontSize="15" fontWeight="bold"
-            fontFamily="Arial, sans-serif" letterSpacing="2">SCHOOL</text>
-
       {/* === BOTTOM-FLOOR WINDOWS === */}
       {/* Left pair */}
       <rect x="248" y="293" width="50" height="42" fill="#67CDD4" rx="2" />
@@ -87,6 +82,11 @@ export default function SchoolBuilding({ className, asBackground, buildingOnly }
       {/* Handles */}
       <circle cx="397" cy="323" r="3" fill="#FFD700" />
       <circle cx="403" cy="323" r="3" fill="#FFD700" />
+
+      {/* SCHOOL sign — rendered last so it sits in front of windows */}
+      <rect x="322" y="258" width="156" height="26" fill="#C0392B" rx="3" />
+      <text x="400" y="276" textAnchor="middle" fill="white" fontSize="15" fontWeight="bold"
+            fontFamily="Arial, sans-serif" letterSpacing="2">SCHOOL</text>
     </svg>
   );
 }

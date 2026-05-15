@@ -1,6 +1,18 @@
 'use client';
 
 import SchoolBuilding from '@/components/SchoolBuilding';
+import { AVATARS } from '@/data/avatars';
+
+/* Darker greens so leaves contrast against the green ground strip */
+const Tree = ({ scale = 1 }: { scale?: number }) => (
+  <svg width={60 * scale} height={90 * scale} viewBox="0 0 60 90">
+    <rect x="26" y="52" width="8" height="38" fill="#92400e" />
+    <circle cx="30" cy="32" r="28" fill="#15803d" />
+    <circle cx="16" cy="20" r="18" fill="#16a34a" />
+    <circle cx="44" cy="24" r="14" fill="#166534" />
+    <circle cx="30" cy="14" r="12" fill="#22c55e" />
+  </svg>
+);
 
 const Cloud = () => (
   <svg width="130" height="65" viewBox="0 0 120 60" fill="white">
@@ -8,15 +20,6 @@ const Cloud = () => (
     <circle cx="60" cy="25" r="25" />
     <circle cx="90" cy="35" r="20" />
     <rect x="30" y="35" width="60" height="20" />
-  </svg>
-);
-
-const Tree = ({ scale = 1 }: { scale?: number }) => (
-  <svg width={60 * scale} height={100 * scale} viewBox="0 0 60 100">
-    <rect x="25" y="60" width="10" height="40" fill="#78350f" />
-    <circle cx="30" cy="40" r="30" fill="#22c55e" />
-    <circle cx="20" cy="25" r="20" fill="#4ade80" />
-    <circle cx="45" cy="35" r="15" fill="#16a34a" />
   </svg>
 );
 
@@ -36,6 +39,25 @@ const SchoolBus = ({ color, label }: { color: string; label: string }) => (
     </text>
   </svg>
 );
+
+const TREES = [
+  { left: '1%',  scale: 0.80 },
+  { left: '6%',  scale: 1.10 },
+  { left: '13%', scale: 0.65 },
+  { left: '19%', scale: 1.20 },
+  { left: '26%', scale: 0.90 },
+  { left: '32%', scale: 1.05 },
+];
+
+/* Frogs look like students approaching the entrance — spread diagonally */
+const FROGS = [
+  { size: 68, bottom: 84,  left: '53%', avatar: AVATARS[2] }, // front/closest
+  { size: 52, bottom: 112, left: '59%', avatar: AVATARS[1] }, // mid
+  { size: 38, bottom: 138, left: '64%', avatar: AVATARS[0] }, // near door/smallest
+];
+
+const ROAD_H = 80;
+const GRASS_H = 110;
 
 export default function SchoolBackground() {
   return (
@@ -59,59 +81,70 @@ export default function SchoolBackground() {
       <div className="absolute inset-0 bg-linear-to-b from-sky-300 to-blue-50" />
 
       {/* Sun */}
-      <div className="absolute top-8 right-20 w-16 h-16"
+      <div className="absolute top-6 right-16 w-28 h-28"
            style={{ animation: 'ribbitFloat 8s ease-in-out infinite' }}>
         <svg viewBox="0 0 100 100" className="w-full h-full">
           <circle cx="50" cy="50" r="30" fill="#fbbf24" />
           {Array.from({ length: 8 }).map((_, i) => (
-            <line key={i} x1="50" y1="10" x2="50" y2="22"
-              stroke="#fbbf24" strokeWidth="4" strokeLinecap="round"
+            <line key={i} x1="50" y1="8" x2="50" y2="22"
+              stroke="#fbbf24" strokeWidth="5" strokeLinecap="round"
               transform={`rotate(${i * 45} 50 50)`} />
           ))}
         </svg>
       </div>
 
       {/* Clouds */}
-      <div className="absolute top-[10%] opacity-70"
+      <div className="absolute top-[10%] opacity-80"
            style={{ left: '-160px', animation: 'ribbitDrift 38s linear infinite' }}>
         <Cloud />
       </div>
-      <div className="absolute top-[22%] opacity-45"
+      <div className="absolute top-[24%] opacity-50"
            style={{ left: '-160px', animation: 'ribbitDrift 55s linear 10s infinite' }}>
         <Cloud />
       </div>
-      <div className="absolute top-[6%] opacity-50"
+      <div className="absolute top-[5%] opacity-55"
            style={{ left: '-160px', animation: 'ribbitDrift 48s linear 22s infinite' }}>
         <Cloud />
       </div>
 
-      {/* Distant hills */}
-      <div className="absolute w-full opacity-20" style={{ bottom: '80px', height: '180px' }}>
-        <svg viewBox="0 0 1000 100" preserveAspectRatio="none" className="w-full h-full">
-          <path d="M0 100 C 200 0, 400 80, 600 20 C 800 80, 1000 40, 1000 100 Z" fill="#86efac" />
-        </svg>
+      {/* Green grass strip above road */}
+      <div className="absolute left-0 right-0 bg-green-500 border-t-2 border-green-700"
+           style={{ bottom: ROAD_H, height: GRASS_H }} />
+
+      {/* School building — 54% wide, sits on grass */}
+      <div className="absolute right-0" style={{ bottom: ROAD_H, width: '54%' }}>
+        <SchoolBuilding buildingOnly className="w-full" />
       </div>
 
-      {/* School Building — fills right portion */}
-      <div className="absolute right-0 top-0 w-[58%] h-full">
-        <SchoolBuilding asBackground={true} />
-      </div>
+      {/* Trees sitting on grass */}
+      {TREES.map(({ left, scale }, i) => (
+        <div key={i} className="absolute" style={{ bottom: ROAD_H, left }}>
+          <Tree scale={scale} />
+        </div>
+      ))}
+
+      {/* Frog students walking toward entrance */}
+      {FROGS.map(({ size, bottom, left, avatar }) => (
+        <div
+          key={avatar.id}
+          className="absolute rounded-full border-4 border-[#312e81] bg-white overflow-hidden shadow-[3px_3px_0px_0px_rgba(49,46,129,0.35)]"
+          style={{ width: size, height: size, bottom, left }}
+        >
+          <img src={avatar.image} alt={avatar.name} className="w-full h-full object-contain" />
+        </div>
+      ))}
 
       {/* Road */}
-      <div className="absolute bottom-0 left-0 right-0 h-20 bg-slate-400 border-t-4 border-slate-500 flex items-center gap-3 px-4 overflow-hidden">
+      <div className="absolute bottom-0 left-0 right-0 h-20 bg-slate-500 border-t-4 border-slate-600 flex items-center gap-3 px-4 overflow-hidden">
         {Array.from({ length: 18 }).map((_, i) => (
           <div key={i} className="shrink-0 w-10 h-1.5 bg-white/50 rounded-full" />
         ))}
       </div>
 
-      {/* School Bus 1 */}
-      <div className="absolute" style={{ bottom: '20px', left: '-170px', animation: 'ribbitDrive 14s linear infinite' }}>
+      {/* School Bus */}
+      <div className="absolute" style={{ bottom: '18px', left: '-170px', animation: 'ribbitDrive 14s linear infinite' }}>
         <SchoolBus color="#fbbf24" label="SCHOOL BUS" />
       </div>
-
-      {/* Foreground trees */}
-      <div className="absolute bottom-16 left-[1%]">  <Tree scale={0.9} /></div>
-      <div className="absolute bottom-14 left-[19%]"> <Tree scale={1.3} /></div>
     </div>
   );
 }
