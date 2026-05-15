@@ -110,7 +110,7 @@ export default function App() {
                 {ALL_SUBJECT_WORDS.map((item) => (
                   <div 
                     key={item.id} 
-                    className="group bg-white p-7 rounded-[2rem] border border-slate-200/60 shadow-sm hover:shadow-2xl hover:shadow-indigo-100 hover:-translate-y-2 transition-all duration-300 text-center"
+                    className="group bg-white p-7 rounded-4xl border border-slate-200/60 shadow-sm hover:shadow-2xl hover:shadow-indigo-100 hover:-translate-y-2 transition-all duration-300 text-center"
                   >
                     <button
                       onClick={() => handleSpeak(item.word, item.id)}
@@ -200,7 +200,7 @@ export default function App() {
                   <div className="inline-flex p-6 bg-green-100 rounded-full text-green-600 mb-6 shadow-inner"><CheckCircle2 className="w-16 h-16" /></div>
                   <h2 className="text-5xl font-black mb-10">참 잘했어요! 🎉</h2>
                   <div className="flex gap-6 justify-center mb-12">
-                    <div className="bg-white p-8 rounded-[2rem] shadow-lg w-48 border border-slate-100">
+                    <div className="bg-white p-8 rounded-4xl shadow-lg w-48 border border-slate-100">
                       <p className="text-xs font-bold text-slate-400 uppercase mb-2">My Score</p>
                       <p className="text-4xl font-black text-indigo-600">{score}/5</p>
                     </div>

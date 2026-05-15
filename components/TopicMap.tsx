@@ -1,6 +1,6 @@
 'use client';
 
-import { ArrowLeft, Library, School, Users, Coffee, ShoppingBag } from 'lucide-react';
+import { ArrowLeft, School, Users, Coffee, ShoppingBag } from 'lucide-react';
 import MapPoint from '@/components/MapPoint';
 import type { Avatar } from '@/types';
 
@@ -14,19 +14,20 @@ export default function TopicMap({ avatar, onSelect, onBack }: TopicMapProps) {
   return (
     <div className="min-h-screen bg-[#FFFBEB] text-[#312e81] flex flex-col font-sans">
 
-      {/* Fixed back button */}
-      <button
-        onClick={onBack}
-        className="fixed left-4 top-4 z-50 bg-white p-2 border-4 border-[#312e81] rounded-xl shadow-[3px_3px_0px_0px_rgba(49,46,129,1)] active:shadow-none active:translate-x-0.5 active:translate-y-0.5 transition-all"
-      >
-        <ArrowLeft size={20} />
-      </button>
-
-      {/* Header title only */}
-      <header className="w-full h-14 bg-[#312e81] flex items-center px-6">
-        <div className="text-white font-black flex items-center gap-2 italic uppercase text-sm">
-          <Library size={18} /> RIBBIT Knowledge Path
+      {/* Header: avatar + title on left, back button on right */}
+      <header className="w-full bg-white border-b-4 border-[#312e81] px-4 py-3 flex items-center justify-between sticky top-0 z-50">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 border-2 border-[#312e81] shadow-[2px_2px_0px_0px_rgba(49,46,129,1)] rounded-full flex items-center justify-center bg-white shrink-0">
+            <img src={avatar.image} alt={avatar.name} className="w-9 h-9 object-contain" />
+          </div>
+          <h1 className="font-black text-base tracking-tighter uppercase italic leading-none text-[#312e81]">RIBBIT</h1>
         </div>
+        <button
+          onClick={onBack}
+          className="p-2 border-2 border-[#312e81] rounded-lg shadow-[3px_3px_0px_0px_rgba(49,46,129,1)] bg-white active:shadow-none active:translate-x-0.5 active:translate-y-0.5 transition-all"
+        >
+          <ArrowLeft size={24} />
+        </button>
       </header>
 
       <div className="flex-1 flex flex-col items-center p-4 pt-6">
