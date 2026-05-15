@@ -1,7 +1,3 @@
-/**
- * LingoDeer-style roadmap — building assets under `public/img/explore/`.
- * Coordinates use a shared 0–100 viewBox (x = horizontal, y = vertical).
- */
 export const ROADMAP_BUILDING_IMAGES = {
   introduction: '/map/intro.svg',
   speaking: '/map/speaking.svg',
@@ -9,13 +5,8 @@ export const ROADMAP_BUILDING_IMAGES = {
   subjects: '/map/subject.svg',
 } as const;
 
-/** Vertical journey (viewports below md): bottom → top. */
-export const ROADMAP_PATH_MOBILE =
-  'M 50 92 C 44 82 32 74 26 64 C 20 54 38 48 58 44 C 78 40 82 30 72 22 C 62 16 54 14 50 14';
-
-/** Horizontal journey (md+): Introduction → Speaking → Classroom → Subjects. */
 export const ROADMAP_PATH_DESKTOP =
-  'M 14 50 C 18 38 24 33 30 28 C 40 22 46 36 52 48 C 60 56 66 42 72 34 C 76 30 76 29 76 28';
+  'M 14 42 C 22 42 26 42 30 42 C 40 42 46 42 52 42 C 60 42 66 42 72 42 C 74 42 76 42 76 42';
 
 export type RoadmapDisplayStatus = 'completed' | 'current' | 'upcoming';
 
@@ -169,7 +160,3 @@ export const ROADMAP_LESSONS: RoadmapLesson[] = [
     },
   },
 ];
-
-export function roadmapPathForLayout(wide: boolean): string {
-  return wide ? ROADMAP_PATH_DESKTOP : ROADMAP_PATH_MOBILE;
-}

@@ -56,7 +56,6 @@ function NodeBody({
       whileTap={disabled ? undefined : { scale: 0.97 }}
       transition={{ type: 'spring', stiffness: 420, damping: 30 }}
     >
-      {/* Image — no circle, just the SVG with drop shadow */}
       <div className={`relative shrink-0 ${imgSize} transition-transform duration-300 group-hover:scale-[1.06]`}>
         {!imgFailed ? (
           <Image
@@ -79,7 +78,7 @@ function NodeBody({
         )}
       </div>
 
-      <div className={`mt-2 w-full min-w-0 rounded-2xl border-2 border-[#302B8F] bg-white px-2.5 py-2.5 text-center shadow-sm sm:px-3 sm:py-3 ${highlighted ? 'border-[#302B8F] shadow-md' : ''}`}>
+      <div className={`mt-2 w-full min-w-0 rounded-2xl border-2 border-[#302B8F] bg-white px-2.5 py-2.5 text-center shadow-sm sm:px-3 sm:py-3 ${highlighted ? 'shadow-md' : ''}`}>
         <div className="flex flex-wrap items-center justify-center gap-1">
           <span className="rounded-full border border-[#302B8F]/15 bg-[#FFF176]/45 px-2 py-0.5 text-[10px] font-bold tabular-nums text-[#1F1D3D]">
             {lesson.progressCurrent}/{lesson.progressTotal}

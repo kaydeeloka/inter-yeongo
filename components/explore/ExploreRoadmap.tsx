@@ -11,7 +11,7 @@ import type { Avatar } from '@/types';
 import ExploreMissionModal from '@/components/explore/ExploreMissionModal';
 import RoadmapNode from '@/components/explore/RoadmapNode';
 import RoadmapPath from '@/components/explore/RoadmapPath';
-import { ROADMAP_LESSONS, roadmapPathForLayout } from '@/data/explore-roadmap';
+import { ROADMAP_LESSONS, ROADMAP_PATH_DESKTOP } from '@/data/explore-roadmap';
 import type { RoadmapLesson } from '@/data/explore-roadmap';
 import { EXPLORE_THEME } from '@/data/explore-theme';
 import { useWideRoadmapLayout } from '@/hooks/useWideRoadmapLayout';
@@ -30,7 +30,7 @@ export default function ExploreRoadmap() {
     setNickname(getSavedName());
   }, []);
 
-  const pathD = wide ? roadmapPathForLayout(true) : '';
+  const pathD = wide ? ROADMAP_PATH_DESKTOP : '';
   const pathEmphasis = wide && hoveredId !== null;
 
   return (
@@ -116,7 +116,7 @@ export default function ExploreRoadmap() {
 
         <div
           className={[
-            'ml-24 relative mx-auto mt-12 w-full',
+            'relative mx-auto mt-6 w-full',
             wide
               ? 'max-w-[min(92rem,calc(100vw-2rem))] overflow-visible p-[clamp(0.75rem,3vw,2.5rem)] max-lg:max-w-5xl min-h-[clamp(380px,46vw,500px)]'
               : 'max-w-[min(100%,20rem)] overflow-x-hidden px-3 py-8 sm:max-w-88 sm:px-4 sm:py-10',
@@ -125,10 +125,6 @@ export default function ExploreRoadmap() {
           {wide ? (
             <>
               <RoadmapPath pathD={pathD} emphasized={pathEmphasis} />
-              <div
-                className="pointer-events-none absolute inset-x-0 bottom-0 h-1/4 rounded-b-[1.6rem] bg-linear-to-t from-[#FFF9E8]/95 to-transparent md:h-1/5"
-                aria-hidden
-              />
               {ROADMAP_LESSONS.map((lesson) => (
                 <RoadmapNode
                   key={lesson.id}
